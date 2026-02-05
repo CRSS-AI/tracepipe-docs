@@ -1,0 +1,102 @@
+---
+github_milestone: 2
+github_repo: CRSS-AI/tracepipe-docs
+---
+
+# Backend PoC
+
+_Last reviewed: 2026-02-05_
+
+## Goal
+
+Deliver core API services for Session ingestion, Capability Surface management, and Example retrieval that support both the storefront frontend and external API consumers.
+
+## Scope
+
+- Session upload and retrieval endpoints
+- Capability Surface CRUD (Suite, Action, McpServer, Tool, ActionToolMap)
+- Example retrieval endpoints
+- User and API key management
+- Authentication middleware
+
+## Deliverables
+
+- [ ] Session Service: POST/GET `/sessions`
+- [ ] Capability Service: CRUD for all Capability Surface entities
+- [ ] Example Service: GET `/examples`, `/examples/{id}/messages`
+- [ ] User Service: GET `/users/me`, API key CRUD
+- [ ] API key authentication middleware
+- [ ] OpenAPI specification
+- [ ] Database schema and migrations
+
+## Success Criteria
+
+1. External client can upload a Session trace bundle via API
+2. Session traces are stored correctly at designated storage paths
+3. Capability Surface entities can be created and queried
+4. Examples can be listed and filtered by session/model/suite
+5. API keys authenticate and authorize requests correctly
+
+## Dependencies
+
+- Object storage configuration (S3-compatible)
+- Database provisioning (PostgreSQL)
+- None on other PoCs—Backend can be developed first
+
+## Risks & Mitigations
+
+| Risk | Mitigation |
+|------|------------|
+| Large trace uploads timeout | Use multipart upload with chunking |
+| Schema changes during development | Version API from start (`/v1/`) |
+| Storage costs for traces | Implement retention policies early |
+
+## Implementation Notes
+
+### Technology Choices
+
+- Python with FastAPI or similar lightweight framework
+- PostgreSQL for relational data
+- S3-compatible object storage for traces and examples
+- Pydantic for request/response validation
+
+### Entity Relationships
+
+```mermaid
+erDiagram
+    User ||--o{ Session : uploads
+    User ||--o{ ApiKey : owns
+    Session }o--|| Suite : scoped_to
+    Session ||--o{ Example : produces
+    Example }o--|| Model : uses
+    Example }o--|| ActionToolMap : targets
+    Suite ||--o{ Action : defines
+    McpServer ||--o{ Tool : provides
+    ActionToolMap }o--|| Suite : binds
+    ActionToolMap }o--|| McpServer : binds
+```
+
+### API Authentication
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API
+    participant Auth
+    participant DB
+    
+    Client->>API: Request + API-Key header
+    API->>Auth: Validate key
+    Auth->>DB: Lookup key, check active
+    DB->>Auth: Key + User + Scopes
+    Auth->>API: User context
+    API->>API: Process request
+    API->>Client: Response
+```
+
+## Related Documents
+
+- [Backend Overview](../backend/overview.md)
+- [Data Model](../data_model.md)
+- [Frontend PoC](frontend-poc.md) — Consumes this API
+- [Pipelines PoC](pipelines-poc.md) — Produces Examples
