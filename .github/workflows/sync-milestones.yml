@@ -1,10 +1,11 @@
 # Milestone Sync Workflow
 #
-# NOTE: This workflow is designed for the top-level `tracepipe` repository.
-# It syncs milestone markdown files to GitHub Milestones.
-# Move this file to CRSS-AI/tracepipe/.github/workflows/ once that repo exists.
+# Syncs milestone markdown files to GitHub Milestones.
+# The markdown is authoritative — changes in GitHub UI will be overwritten.
 #
-# For tracepipe-docs, this workflow runs locally to validate and sync milestones.
+# NOTE: This also runs in CRSS-AI/tracepipe for the centralized milestones.
+# This workflow syncs milestones to tracepipe-docs for now; once tracepipe
+# is fully operational, milestones will live there.
 
 name: Sync Milestones
 
