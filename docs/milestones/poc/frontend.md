@@ -1,6 +1,6 @@
 ---
 title: "Frontend PoC"
-github_milestone: 6
+github_milestone: 3
 target_repos:
   - CRSS-AI/tracepipe-frontend
 ---

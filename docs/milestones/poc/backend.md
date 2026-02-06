@@ -1,6 +1,6 @@
 ---
 title: "Backend PoC"
-github_milestone: 5
+github_milestone: 2
 target_repos:
   - CRSS-AI/tracepipe-backend
 ---

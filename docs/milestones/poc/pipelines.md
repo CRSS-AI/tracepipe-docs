@@ -1,6 +1,6 @@
 ---
 title: "Pipelines PoC"
-github_milestone: 4
+github_milestone: 1
 target_repos:
   - CRSS-AI/tracepipe-pipelines
 ---

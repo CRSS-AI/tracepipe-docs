@@ -21,7 +21,7 @@ from pathlib import Path
 import yaml
 
 MILESTONES_DIR = Path("docs/milestones")
-REPO = os.environ.get("GITHUB_REPOSITORY", "CRSS-AI/tracepipe-docs")
+REPO = os.environ.get("GITHUB_REPOSITORY", "CRSS-AI/tracepipe")
 
 # Regex to match YAML front matter
 FRONT_MATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
