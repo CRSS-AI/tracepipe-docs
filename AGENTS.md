@@ -215,3 +215,29 @@ for repo in tracepipe tracepipe-docs tracepipe-backend tracepipe-frontend tracep
   gh secret set PAT_TOKEN --repo CRSS-AI/$repo --body "<your-pat>"
 done
 ```
+
+## Cloning with Submodules
+
+When working with this repository, always include submodules:
+
+**Clone with submodules**:
+```bash
+git clone --recurse-submodules https://github.com/CRSS-AI/tracepipe-docs.git
+```
+
+**Initialize submodules after clone**:
+```bash
+git submodule update --init
+```
+
+**Pull with submodules**:
+```bash
+git pull --recurse-submodules
+```
+
+**Configure automatic submodule recursion** (recommended):
+```bash
+git config submodule.recurse true
+```
+
+This ensures `git pull` automatically updates submodules without the `--recurse-submodules` flag.
