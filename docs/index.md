@@ -38,15 +38,16 @@ graph LR
 
 Active proof-of-concept initiatives:
 
-- [Frontend PoC](milestones/frontend-poc.md) — Storefront with Stripe payments and API key provisioning.
-- [Backend PoC](milestones/backend-poc.md) — Session ingestion and Capability Surface APIs.
-- [Pipelines PoC](milestones/pipelines-poc.md) — Session-to-Example transformation pipeline.
+- [Frontend PoC](milestones/poc/frontend.md) — Storefront with Stripe payments and API key provisioning.
+- [Backend PoC](milestones/poc/backend.md) — Session ingestion and Capability Surface APIs.
+- [Pipelines PoC](milestones/poc/pipelines.md) — Session-to-Example transformation pipeline.
 
-## Repositories
+## Repository Architecture
 
 | Repository | Purpose |
 |------------|---------|
-| [tracepipe-docs](https://github.com/CRSS-AI/tracepipe-docs) | Documentation and milestone tracking |
+| [tracepipe](https://github.com/CRSS-AI/tracepipe) | **Top-level index** — submodules all repos, centralized milestones & project board |
+| [tracepipe-docs](https://github.com/CRSS-AI/tracepipe-docs) | Platform documentation |
 | [tracepipe-frontend](https://github.com/CRSS-AI/tracepipe-frontend) | Storefront web application |
 | [tracepipe-backend](https://github.com/CRSS-AI/tracepipe-backend) | API services |
 | [tracepipe-pipelines](https://github.com/CRSS-AI/tracepipe-pipelines) | Data processing pipelines |

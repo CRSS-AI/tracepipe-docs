@@ -1,9 +1,9 @@
 ---
-github_milestone: 3
-github_repo: CRSS-AI/tracepipe-docs
+title: "Pipelines PoC"
+github_milestone: 4
+target_repos:
+  - CRSS-AI/tracepipe-pipelines
 ---
-
-# Pipelines PoC
 
 _Last reviewed: 2026-02-05_
 
@@ -97,11 +97,3 @@ Each Example records:
 - `modelId`: Which Model was used for classification
 - `modelConfiguration`: Provider-specific settings (temperature, etc.)
 - `actionToolMapId`: Which action-tool mapping was applied
-
-This enables reproducibility and comparison across different configurations.
-
-## Related Documents
-
-- [Pipelines Overview](../pipelines/overview.md)
-- [Data Model](../data_model.md) — Session and Example schemas
-- [Backend PoC](backend-poc.md) — APIs for Session and Example

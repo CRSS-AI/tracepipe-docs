@@ -1,9 +1,9 @@
 ---
-github_milestone: 1
-github_repo: CRSS-AI/tracepipe-docs
+title: "Frontend PoC"
+github_milestone: 6
+target_repos:
+  - CRSS-AI/tracepipe-frontend
 ---
-
-# Frontend PoC
 
 _Last reviewed: 2026-02-05_
 
@@ -78,6 +78,6 @@ sequenceDiagram
 
 ## Related Documents
 
-- [Frontend Overview](../frontend/overview.md)
-- [Backend PoC](backend-poc.md)
-- [Data Model](../data_model.md) — User entity
+- [Frontend Overview](../../frontend/overview.md)
+- [Backend PoC](backend.md)
+- [Data Model](../../data_model.md) — User entity

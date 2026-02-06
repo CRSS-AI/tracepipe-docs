@@ -10,28 +10,43 @@ Tracepipe is derived from the [AutoActivity](https://github.com/CRSS-AI/autoacti
 
 See [docs/index.md](docs/index.md) for the documentation entry point.
 
-## Repositories
+## Repository Architecture
 
 | Repository | Purpose |
 |------------|---------|
-| [tracepipe-docs](https://github.com/CRSS-AI/tracepipe-docs) | Documentation and milestones |
+| [tracepipe](https://github.com/CRSS-AI/tracepipe) | **Top-level index** — submodules all repos, centralized milestones & project board |
+| [tracepipe-docs](https://github.com/CRSS-AI/tracepipe-docs) | Platform documentation |
 | [tracepipe-frontend](https://github.com/CRSS-AI/tracepipe-frontend) | Storefront web application |
 | [tracepipe-backend](https://github.com/CRSS-AI/tracepipe-backend) | API services |
 | [tracepipe-pipelines](https://github.com/CRSS-AI/tracepipe-pipelines) | Data processing pipelines |
 
+## Submodule Structure
+
+- `tracepipe` contains submodules for all repos at top level
+- Each subrepo contains a `tracepipe-docs` submodule with a symlink to its docs folder
+
+## Milestone Management
+
+Milestones are defined as markdown files in `docs/milestones/` (arbitrarily nested). They sync automatically to GitHub Milestones in `CRSS-AI/tracepipe` on push to main.
+
+**Front matter format**:
+```yaml
+---
+title: "Milestone Title"
+github_milestone: null    # auto-populated after first sync
+target_repos:
+  - CRSS-AI/tracepipe-backend
+---
+```
+
 ## Scripts
 
-Utility scripts for GitHub synchronization:
-
 ```bash
-# Validate milestone documents against GitHub
-./scripts/sync-milestones.sh
+# Sync milestones to GitHub (also runs via GitHub Actions)
+python scripts/sync-milestones.py
 
 # Generate markdown summary of milestone issues
-./scripts/list-milestone-issues.sh
-
-# Create a GitHub milestone from a document
-./scripts/create-milestone.sh docs/milestones/my-milestone.md
+./scripts/list-milestone-issues.sh > milestone-issues.md
 ```
 
 ## Contributing

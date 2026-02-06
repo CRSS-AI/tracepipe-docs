@@ -1,0 +1,55 @@
+# Milestone Sync Workflow
+#
+# NOTE: This workflow is designed for the top-level `tracepipe` repository.
+# It syncs milestone markdown files to GitHub Milestones.
+# Move this file to CRSS-AI/tracepipe/.github/workflows/ once that repo exists.
+#
+# For tracepipe-docs, this workflow runs locally to validate and sync milestones.
+
+name: Sync Milestones
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/milestones/**/*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Sync milestones
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: python scripts/sync-milestones.py
+
+      - name: Commit milestone number updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet docs/milestones/; then
+            echo "No milestone number updates needed"
+          else
+            git add docs/milestones/
+            git commit -m "chore: update github_milestone numbers [skip ci]"
+            git push
+          fi

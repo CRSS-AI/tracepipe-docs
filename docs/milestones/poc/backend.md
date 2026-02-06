@@ -1,9 +1,9 @@
 ---
-github_milestone: 2
-github_repo: CRSS-AI/tracepipe-docs
+title: "Backend PoC"
+github_milestone: 5
+target_repos:
+  - CRSS-AI/tracepipe-backend
 ---
-
-# Backend PoC
 
 _Last reviewed: 2026-02-05_
 
@@ -99,10 +99,3 @@ sequenceDiagram
     API->>API: Process request
     API->>Client: Response
 ```
-
-## Related Documents
-
-- [Backend Overview](../backend/overview.md)
-- [Data Model](../data_model.md)
-- [Frontend PoC](frontend-poc.md) — Consumes this API
-- [Pipelines PoC](pipelines-poc.md) — Produces Examples

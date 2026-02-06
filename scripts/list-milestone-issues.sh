@@ -1,10 +1,12 @@
 #!/bin/bash
 # list-milestone-issues.sh
 # Generates a markdown summary of issues per milestone.
+#
+# NOTE: Once tracepipe repo exists, change REPO to CRSS-AI/tracepipe
 
 set -euo pipefail
 
-REPO="CRSS-AI/tracepipe-docs"
+REPO="${TRACEPIPE_REPO:-CRSS-AI/tracepipe-docs}"
 
 echo "# Milestone Issues"
 echo ""

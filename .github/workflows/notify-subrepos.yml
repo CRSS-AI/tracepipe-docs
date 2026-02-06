@@ -1,0 +1,30 @@
+# Notify Subrepos Workflow
+#
+# When docs are updated, notify implementation repos to update their
+# docs submodule.
+
+name: Notify Subrepos
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo:
+          - CRSS-AI/tracepipe-backend
+          - CRSS-AI/tracepipe-frontend
+          - CRSS-AI/tracepipe-pipelines
+    steps:
+      - name: Trigger docs submodule update
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          gh api repos/${{ matrix.repo }}/dispatches \
+            -X POST \
+            -f event_type=docs-update \
+            -f client_payload='{"source": "tracepipe-docs"}'
