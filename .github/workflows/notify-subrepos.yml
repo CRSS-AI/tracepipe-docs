@@ -27,4 +27,4 @@ jobs:
           gh api repos/${{ matrix.repo }}/dispatches \
             -X POST \
             -f event_type=docs-update \
-            -f client_payload='{"source": "tracepipe-docs"}'
+            -F client_payload='{"source": "tracepipe-docs"}'
