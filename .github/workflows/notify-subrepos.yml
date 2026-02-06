@@ -24,7 +24,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          gh api repos/${{ matrix.repo }}/dispatches \
-            -X POST \
-            -f event_type=docs-update \
-            -F client_payload='{"source": "tracepipe-docs"}'
+          echo '{"event_type": "docs-update", "client_payload": {"source": "tracepipe-docs"}}' | \
+            gh api repos/${{ matrix.repo }}/dispatches -X POST --input -
