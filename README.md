@@ -52,29 +52,3 @@ python scripts/sync-milestones.py
 ## Contributing
 
 See [AGENTS.md](AGENTS.md) for contribution guidelines and GitHub integration protocols.
-
-## Cloning with Submodules
-
-To clone this repository with its first-level submodules:
-
-```bash
-git clone --recurse-submodules https://github.com/CRSS-AI/tracepipe-docs.git
-```
-
-If you've already cloned without submodules, initialize them:
-
-```bash
-git submodule update --init
-```
-
-To pull updates including submodule changes:
-
-```bash
-git pull --recurse-submodules
-```
-
-Or configure git to always recurse submodules on pull:
-
-```bash
-git config submodule.recurse true
-```
