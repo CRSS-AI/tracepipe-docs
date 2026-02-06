@@ -18,6 +18,8 @@ Deliver core API services for Session ingestion, Capability Surface management, 
 - Example retrieval endpoints
 - User and API key management
 - Authentication middleware
+- A2P (Agent-to-Platform) protocol support
+- MCP (Model Context Protocol) server endpoint
 
 ## Deliverables
 
@@ -26,6 +28,8 @@ Deliver core API services for Session ingestion, Capability Surface management, 
 - [ ] Example Service: GET `/examples`, `/examples/{id}/messages`
 - [ ] User Service: GET `/users/me`, API key CRUD
 - [ ] API key authentication middleware
+- [ ] A2P endpoint for agent-initiated requests
+- [ ] MCP server exposing Tracepipe tools to LLM agents
 - [ ] OpenAPI specification
 - [ ] Database schema and migrations
 
@@ -36,6 +40,8 @@ Deliver core API services for Session ingestion, Capability Surface management, 
 3. Capability Surface entities can be created and queried
 4. Examples can be listed and filtered by session/model/suite
 5. API keys authenticate and authorize requests correctly
+6. A2P clients can submit requests and receive structured responses
+7. MCP-compatible agents can discover and invoke Tracepipe tools
 
 ## Dependencies
 
