@@ -85,4 +85,3 @@ sequenceDiagram
 - [Frontend Overview](../../frontend/overview.md)
 - [Backend MVP](backend.md)
 - [Data Model](../../data_model.md) — User entity
-
