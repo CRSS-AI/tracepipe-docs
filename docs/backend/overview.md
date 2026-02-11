@@ -72,4 +72,4 @@ Manages user accounts and API keys:
 - [Data Model](../data_model.md) — Entity schemas
 - [Frontend Overview](../frontend/overview.md) — Storefront that consumes this API
 - [Pipelines Overview](../pipelines/overview.md) — Session-to-Example processing
-- [Backend PoC](../milestones/backend-poc.md) — Current milestone
+- [Backend MVP](../milestones/mvp/backend.md) — Current milestone

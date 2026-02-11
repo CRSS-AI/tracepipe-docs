@@ -1,11 +1,11 @@
 ---
-title: "Pipelines PoC"
+title: "Pipelines MVP"
 github_milestone: 1
 target_repos:
   - CRSS-AI/tracepipe-pipelines
 ---
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-11_
 
 ## Lineage
 
@@ -43,7 +43,7 @@ Deliver a working pipeline that transforms raw Session trace data into structure
 
 ## Dependencies
 
-- Backend PoC: Session and Example APIs must be available
+- Backend MVP: Session and Example APIs must be available
 - LLM API access (OpenRouter or similar)
 - At least one Suite with defined Actions for classification
 

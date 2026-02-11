@@ -93,4 +93,4 @@ sequenceDiagram
 
 - [Data Model](../data_model.md) — Session and Example schemas
 - [Backend Overview](../backend/overview.md) — Session ingestion API
-- [Pipelines PoC](../milestones/pipelines-poc.md) — Current milestone
+- [Pipelines MVP](../milestones/mvp/pipelines.md) — Current milestone

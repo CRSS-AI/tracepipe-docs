@@ -1,11 +1,11 @@
 ---
-title: "Backend PoC"
+title: "Backend MVP"
 github_milestone: 2
 target_repos:
   - CRSS-AI/tracepipe-backend
 ---
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-11_
 
 ## Goal
 
@@ -47,7 +47,7 @@ Deliver core API services for Session ingestion, Capability Surface management, 
 
 - Object storage configuration (S3-compatible)
 - Database provisioning (PostgreSQL)
-- None on other PoCs—Backend can be developed first
+- None on other MVPs—Backend can be developed first
 
 ## Risks & Mitigations
 

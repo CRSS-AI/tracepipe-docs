@@ -1,11 +1,11 @@
 ---
-title: "Frontend PoC"
+title: "Frontend MVP"
 github_milestone: 3
 target_repos:
   - CRSS-AI/tracepipe-frontend
 ---
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-11_
 
 ## Goal
 
@@ -27,6 +27,7 @@ Deliver a functional storefront where users can register accounts, set up paymen
 - [ ] API key generation page
 - [ ] API key list with revocation capability
 - [ ] Basic usage metrics display
+- [ ] **Trace capture how-to page** — guide users through recording traces via `chrome://traces`
 
 ## Success Criteria
 
@@ -34,18 +35,20 @@ Deliver a functional storefront where users can register accounts, set up paymen
 2. Payment processing works end-to-end with Stripe test mode
 3. API keys authenticate successfully against Backend API
 4. User can view and revoke their API keys
+5. Trace capture how-to page clearly explains `chrome://traces` usage and event category selections
 
 ## Dependencies
 
-- Backend PoC: User and API key endpoints must be available
+- Backend MVP: User and API key endpoints must be available
 - Stripe account configuration
+- Azure AD B2C (Microsoft Entra External ID) tenant configuration
 
 ## Risks & Mitigations
 
 | Risk | Mitigation |
 |------|------------|
 | Stripe integration complexity | Use Stripe Checkout (hosted) to minimize custom code |
-| Auth provider selection delays | Start with simple email/password; add OAuth later |
+| Auth provider configuration | Use Azure AD B2C (Microsoft Entra External ID) with existing Azure infrastructure |
 | Scope creep to admin features | Defer organization/team management to future milestone |
 
 ## Implementation Notes
@@ -54,6 +57,7 @@ Deliver a functional storefront where users can register accounts, set up paymen
 
 - Prefer static-first architecture (Next.js, Astro, or similar)
 - Use Stripe's hosted checkout and customer portal
+- Use Azure AD B2C (Microsoft Entra External ID) for authentication
 - Minimal backend requirements—most state lives in Stripe and Backend API
 
 ### API Key Flow
@@ -79,5 +83,5 @@ sequenceDiagram
 ## Related Documents
 
 - [Frontend Overview](../../frontend/overview.md)
-- [Backend PoC](backend.md)
+- [Backend MVP](backend.md)
 - [Data Model](../../data_model.md) — User entity

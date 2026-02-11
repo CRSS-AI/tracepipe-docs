@@ -52,4 +52,4 @@ graph TD
 
 - [Backend Overview](../backend/overview.md) — API that powers the storefront
 - [Data Model](../data_model.md) — User entity schema
-- [Frontend PoC](../milestones/frontend-poc.md) — Current milestone
+- [Frontend MVP](../milestones/mvp/frontend.md) — Current milestone

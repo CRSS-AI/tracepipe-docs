@@ -1,8 +1,21 @@
 # Tracepipe Documentation
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-11_
 
 Welcome to the canonical documentation for the Tracepipe platform. This repository serves as the source of truth for platform architecture, data models, and milestone planning.
+
+## What is Tracepipe?
+
+Tracepipe transforms raw browser interaction traces into high-quality training data for language models. Built for ML engineers and anyone building training datasets, Tracepipe uses action classification to convert user traces into structured examples suitable for model fine-tuning.
+
+**The Core Value**: Upload a `chrome://traces` recording of a user interacting with a web application, and get back JSONL-formatted training messages that map those interactions to canonical actions in your capability surface.
+
+## How It Works
+
+1. **Capture**: Users record browser traces via `chrome://traces` (input events, network traffic, screenshots)
+2. **Upload**: Submit trace bundles through the Tracepipe API (Sessions)
+3. **Process**: Pipelines classify actions and extract parameters from multimodal trace evidence
+4. **Retrieve**: Download structured training data (Examples) in JSONL format, ready for model training
 
 ## Lineage
 
@@ -36,11 +49,11 @@ graph LR
 
 ## Milestones
 
-Active proof-of-concept initiatives:
+Active MVP initiatives:
 
-- [Frontend PoC](milestones/poc/frontend.md) — Storefront with Stripe payments and API key provisioning.
-- [Backend PoC](milestones/poc/backend.md) — Session ingestion and Capability Surface APIs.
-- [Pipelines PoC](milestones/poc/pipelines.md) — Session-to-Example transformation pipeline.
+- [Frontend MVP](milestones/mvp/frontend.md) — Storefront with Stripe payments, API key provisioning, and trace capture how-to.
+- [Backend MVP](milestones/mvp/backend.md) — Session ingestion and Capability Surface APIs.
+- [Pipelines MVP](milestones/mvp/pipelines.md) — Session-to-Example transformation pipeline.
 
 ## Repository Architecture
 
