@@ -21,6 +21,22 @@ Tracepipe transforms raw browser interaction traces into high-quality training d
 
 Tracepipe is derived from the [AutoActivity](https://github.com/CRSS-AI/autoactivity-docs) platform. The Capability Surface models—Suite, Action, Tool, and their mappings—are preserved intact. The execution layer has been simplified: raw trace data arrives as Sessions and is processed into Examples suitable for model training. The Task/Activity/Case/Instance orchestration hierarchy from AutoActivity has been removed.
 
+## Who Is This For?
+
+**Primary Audience**: ML engineers building training datasets for language models
+
+**Use Cases**:
+- Fine-tuning models for web automation tasks
+- Creating training data from expert demonstrations
+- Building datasets for agentic workflow models
+- Generating tool-use examples from real browser interactions
+
+**Why Tracepipe vs. Alternatives**:
+- **Automated classification**: LLM-powered action identification eliminates manual labeling
+- **Multimodal context**: Combines input events, network traffic, and screenshots for rich training signals
+- **Canonical action mapping**: Maps traces to your capability surface, not raw browser events
+- **Production-ready format**: Outputs JSONL suitable for direct consumption by training pipelines
+
 ## System Overview
 
 ```mermaid

@@ -22,6 +22,23 @@ graph LR
     Capability --> DB[(Database)]
 ```
 
+## Authentication
+
+API requests require an API key in the `X-API-Key` header. Keys are generated through the [storefront](https://tracepipe.example.com) after registration and subscription.
+
+**API Key Header Format**:
+```
+X-API-Key: tp_live_abcdef123456789...
+```
+
+**Example Request**:
+```bash
+curl -X GET https://api.tracepipe.example.com/v1/sessions \
+  -H "X-API-Key: tp_live_abcdef123456789..."
+```
+
+API keys are scoped to your user account and can be revoked at any time through the storefront dashboard.
+
 ## Services
 
 ### Session Service
@@ -29,8 +46,26 @@ graph LR
 Handles trace ingestion from users:
 
 - **POST** `/sessions` — Upload trace bundle (input events, network, screenshots)
+  ```bash
+  curl -X POST https://api.tracepipe.example.com/v1/sessions \
+    -H "X-API-Key: tp_live_..." \
+    -F "input_events=@input_events.jsonl" \
+    -F "network_traffic=@network_traffic.jsonl" \
+    -F "screenshots=@screenshots.zip" \
+    -F "suite_id=<suite-uuid>"
+  ```
+
 - **GET** `/sessions/{id}` — Retrieve session metadata
+  ```bash
+  curl -X GET https://api.tracepipe.example.com/v1/sessions/{id} \
+    -H "X-API-Key: tp_live_..."
+  ```
+
 - **GET** `/sessions` — List sessions for authenticated user
+  ```bash
+  curl -X GET https://api.tracepipe.example.com/v1/sessions?suite_id=<uuid> \
+    -H "X-API-Key: tp_live_..."
+  ```
 
 Sessions are stored in object storage at paths defined by the data model.
 
@@ -49,8 +84,23 @@ Manages the Capability Surface entities:
 Provides access to processed training data:
 
 - **GET** `/examples` — List examples, filterable by session, model, suite
+  ```bash
+  curl -X GET "https://api.tracepipe.example.com/v1/examples?session_id=<uuid>&suite_id=<uuid>" \
+    -H "X-API-Key: tp_live_..."
+  ```
+
 - **GET** `/examples/{id}` — Retrieve example metadata
+  ```bash
+  curl -X GET https://api.tracepipe.example.com/v1/examples/{id} \
+    -H "X-API-Key: tp_live_..."
+  ```
+
 - **GET** `/examples/{id}/messages` — Stream JSONL training messages
+  ```bash
+  curl -X GET https://api.tracepipe.example.com/v1/examples/{id}/messages \
+    -H "X-API-Key: tp_live_..." \
+    -o training_data.jsonl
+  ```
 
 ### User Service
 
