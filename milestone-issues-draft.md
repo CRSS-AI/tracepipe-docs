@@ -6,6 +6,246 @@
 
 ---
 
+## Instructions for Filing Issues in GitHub
+
+This section provides guidance for creating these issues in the CRSS-AI/tracepipe repository.
+
+### Repository & Milestone Setup
+
+**Target Repository**: `CRSS-AI/tracepipe`  
+**Rationale**: Centralized milestone management per AGENTS.md — all issues tracked in parent repo even though work happens in submodules.
+
+**Existing GitHub Milestones** (already created):
+- Milestone #1: "Pipelines PoC" (use for Pipelines MVP issues)
+- Milestone #2: "Backend PoC" (use for Backend MVP issues)
+- Milestone #3: "Frontend PoC" (use for Frontend MVP issues)
+
+**Note**: GitHub milestones say "PoC" but documentation says "MVP" — both terms refer to the same deliverables.
+
+### Issue Naming Convention
+
+**Format**: `[Component] Brief Title`
+
+**Examples**:
+- `[Backend] Database Schema Migration from AutoActivity` (Issue BE-01)
+- `[Pipelines] Port Bronze Trace Loader` (Issue PL-01)
+- `[Frontend] Next.js Project Scaffolding` (Issue FE-01)
+- `[CI/CD] GitHub Actions Workflow for Backend` (Issue CC-01)
+
+**Component Prefixes**:
+- `[Backend]` — Backend API issues (BE-XX)
+- `[Pipelines]` — Data pipeline issues (PL-XX)
+- `[Frontend]` — Storefront UI issues (FE-XX)
+- `[CI/CD]` — DevOps/automation issues (CC-XX)
+- `[Docs]` — Documentation issues (CC-XX)
+- `[Integration]` — End-to-end testing issues (CC-XX)
+
+### Issue Body Template
+
+Each issue should use this markdown template:
+
+```markdown
+## Description
+
+[Copy the "Description" section from this document]
+
+## Status Annotation
+
+**Carry-Over / Adaptation / New**: [One of these three]
+
+[If Carry-Over or Adaptation, include:]
+**Predecessor Work**: [Reference to autoactivity repo, e.g., "autoactivity-be #31 (closed)"]
+
+## Changes Required
+
+[Copy the "Changes Required" or relevant subsections from this document]
+
+## Acceptance Criteria
+
+[Copy the checklist from this document — these should remain as checkboxes]
+
+## Priority
+
+**P0** / **P1** / **P2**
+
+## Related Issues
+
+[Add links to dependent issues after filing, e.g., "Depends on #XX", "Blocks #YY"]
+
+## Related Documentation
+
+- [Data Model](https://github.com/CRSS-AI/tracepipe-docs/blob/main/docs/data_model.md)
+- [Backend Overview](https://github.com/CRSS-AI/tracepipe-docs/blob/main/docs/backend/overview.md)
+- [Milestone: Backend MVP](https://github.com/CRSS-AI/tracepipe-docs/blob/main/docs/milestones/mvp/backend.md)
+
+[Adjust links based on issue's milestone]
+```
+
+### Label Strategy
+
+**Status Labels** (indicate work type):
+- `status: carry-over` — Work can be ported directly from autoactivity repos
+- `status: adaptation` — Existing work that needs refactoring for Tracepipe
+- `status: new` — Net-new implementation required
+
+**Priority Labels** (indicate critical path):
+- `priority: P0` — Critical path, must be done first
+- `priority: P1` — High priority, needed for MVP
+- `priority: P2` — Medium priority, nice-to-have for MVP
+
+**Component Labels** (indicate which repo does the work):
+- `component: backend` — Work happens in tracepipe-backend
+- `component: pipelines` — Work happens in tracepipe-pipelines
+- `component: frontend` — Work happens in tracepipe-frontend
+- `component: infrastructure` — Cross-cutting work
+
+**Type Labels** (indicate nature of work):
+- `type: feature` — New feature implementation
+- `type: refactor` — Code refactoring/cleanup
+- `type: documentation` — Documentation updates
+- `type: testing` — Test coverage
+- `type: ci-cd` — CI/CD automation
+
+### Milestone Assignment
+
+| Issue Prefix | Milestone Number | Milestone Name |
+|--------------|------------------|----------------|
+| BE-01 through BE-23 | #2 | Backend PoC |
+| PL-01 through PL-19 | #1 | Pipelines PoC |
+| FE-01 through FE-11 | #3 | Frontend PoC |
+| CC-01 (Backend CI/CD) | #2 | Backend PoC |
+| CC-02 (Pipelines CI/CD) | #1 | Pipelines PoC |
+| CC-03 (Frontend CI/CD) | #3 | Frontend PoC |
+| CC-04, CC-05, CC-06 | No milestone (cross-cutting) | Leave unassigned or create "Infrastructure" milestone |
+
+### Label Mapping from Document
+
+For each issue, apply labels based on these fields:
+
+**Status Annotation** → Status Label:
+- `[CARRY-OVER]` → `status: carry-over`
+- `[ADAPTATION]` → `status: adaptation`
+- `[NEW]` → `status: new`
+
+**Priority** → Priority Label:
+- `P0` → `priority: P0`
+- `P1` → `priority: P1`
+- `P2` → `priority: P2`
+
+**Issue Prefix** → Component Label:
+- `BE-XX` → `component: backend`
+- `PL-XX` → `component: pipelines`
+- `FE-XX` → `component: frontend`
+- `CC-XX` → `component: infrastructure` (or specific component if applicable)
+
+**Type Label** (infer from issue content):
+- Database/schema issues → `type: refactor`
+- New endpoints/services → `type: feature`
+- Test issues → `type: testing`
+- CI/CD issues → `type: ci-cd`
+- Documentation issues → `type: documentation`
+
+### Filing Order
+
+**Recommended order** (to minimize dependency issues):
+
+1. **Backend Infrastructure** (BE-01 through BE-04) — Foundation for all backend work
+2. **Backend Services** (BE-05 through BE-23) — API endpoints needed by pipelines and frontend
+3. **Pipelines Foundation** (PL-01 through PL-04) — Port existing work first
+4. **Pipelines New Work** (PL-05 through PL-19) — Build on foundation
+5. **Frontend** (FE-01 through FE-11) — Depends on backend APIs
+6. **Cross-Cutting** (CC-01 through CC-06) — Can be done in parallel
+
+### Automation Recommendations
+
+**Using GitHub CLI** (`gh`):
+
+```bash
+# Create an issue with labels and milestone
+gh issue create \
+  --repo CRSS-AI/tracepipe \
+  --title "[Backend] Database Schema Migration from AutoActivity" \
+  --body-file issue-be-01.md \
+  --milestone "Backend PoC" \
+  --label "status: adaptation,priority: P0,component: backend,type: refactor"
+
+# Bulk create issues from a script
+for issue in issues/*.md; do
+  gh issue create --repo CRSS-AI/tracepipe --body-file "$issue" --label "..." --milestone "..."
+done
+```
+
+**Scripting Approach** (optional):
+- Extract each issue from this document into separate markdown files
+- Parse metadata (status, priority, component) to generate labels
+- Use GitHub CLI or API to create issues programmatically
+- Link issues automatically (e.g., "Depends on #XX") after creation
+
+### Post-Filing Steps
+
+After all issues are filed:
+
+1. **Review dependencies** — Add "Depends on #XX" or "Blocks #YY" to issue bodies
+2. **Assign issues** — Assign to team members based on expertise
+3. **Create project board** — Organize issues in GitHub Projects with columns: Backlog, In Progress, Review, Done
+4. **Set up automation** — Configure GitHub Actions to update issue status based on PR merges
+5. **Link PRs to issues** — Use "Closes #XX" in PR descriptions to auto-close issues
+
+### Cross-Repository Tracking
+
+Since work happens in submodules but issues are tracked in the parent repo:
+
+**In Pull Requests** (in submodule repos):
+- Reference parent repo issues: `Closes CRSS-AI/tracepipe#XX`
+- This will auto-close the issue in the parent repo when PR merges
+
+**Example PR Title** (in tracepipe-backend):
+```
+[Backend] Implement Session Upload Endpoint (CRSS-AI/tracepipe#XX)
+```
+
+**In Commit Messages** (in submodules):
+```
+feat(session): implement upload endpoint
+
+Implements multipart form upload for session traces.
+
+Closes CRSS-AI/tracepipe#XX
+```
+
+### Label Creation Script
+
+If labels don't exist yet, create them with:
+
+```bash
+gh label create "status: carry-over" --color "0E8A16" --repo CRSS-AI/tracepipe
+gh label create "status: adaptation" --color "FBCA04" --repo CRSS-AI/tracepipe
+gh label create "status: new" --color "D93F0B" --repo CRSS-AI/tracepipe
+gh label create "priority: P0" --color "B60205" --repo CRSS-AI/tracepipe
+gh label create "priority: P1" --color "D93F0B" --repo CRSS-AI/tracepipe
+gh label create "priority: P2" --color "FBCA04" --repo CRSS-AI/tracepipe
+gh label create "component: backend" --color "0052CC" --repo CRSS-AI/tracepipe
+gh label create "component: pipelines" --color "5319E7" --repo CRSS-AI/tracepipe
+gh label create "component: frontend" --color "1D76DB" --repo CRSS-AI/tracepipe
+gh label create "component: infrastructure" --color "BFD4F2" --repo CRSS-AI/tracepipe
+gh label create "type: feature" --color "A2EEEF" --repo CRSS-AI/tracepipe
+gh label create "type: refactor" --color "EDEDED" --repo CRSS-AI/tracepipe
+gh label create "type: documentation" --color "0075CA" --repo CRSS-AI/tracepipe
+gh label create "type: testing" --color "D4C5F9" --repo CRSS-AI/tracepipe
+gh label create "type: ci-cd" --color "C5DEF5" --repo CRSS-AI/tracepipe
+```
+
+### Maintenance
+
+As work progresses:
+- Update issue bodies with findings/decisions
+- Close issues as work completes
+- Create follow-up issues for scope creep ("nice-to-have" items)
+- Update milestone due dates based on velocity
+- Sync milestone status to documentation (update checkbox deliverables in `tracepipe-docs/docs/milestones/mvp/*.md`)
+
+---
+
 ## Overview
 
 This document outlines proposed GitHub Issues for the three Tracepipe MVP milestones:
