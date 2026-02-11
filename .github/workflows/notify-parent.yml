@@ -1,7 +1,8 @@
 # Notify Parent Workflow
 #
 # When this repo pushes to main, notify the parent tracepipe repo
-# to update its submodule reference.
+# to update its submodule reference. If milestone files changed,
+# also trigger milestone sync.
 
 name: Notify Parent
 
@@ -13,9 +14,31 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for milestone changes
+        id: milestone_check
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -q '^docs/milestones/.*\.md$'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Trigger parent submodule update
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           echo '{"event_type": "submodule-update", "client_payload": {"source": "${{ github.repository }}"}}' | \
+            gh api repos/CRSS-AI/tracepipe/dispatches -X POST --input -
+
+      - name: Trigger parent milestone sync
+        if: steps.milestone_check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          echo '{"event_type": "milestone-update", "client_payload": {"source": "${{ github.repository }}"}}' | \
             gh api repos/CRSS-AI/tracepipe/dispatches -X POST --input -
