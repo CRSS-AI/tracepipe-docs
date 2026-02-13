@@ -28,7 +28,9 @@ FRONT_MATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 
 def gh_api(repo: str, endpoint: str, method: str = "GET", data: dict | None = None) -> dict | list | None:
     """Call GitHub API via gh CLI."""
-    cmd = ["gh", "api", "-R", repo, endpoint, "-X", method]
+    # Substitute {repo} placeholder in endpoint if present
+    endpoint = endpoint.replace("{repo}", repo)
+    cmd = ["gh", "api", endpoint, "-X", method]
     if data:
         for key, value in data.items():
             if isinstance(value, bool):
