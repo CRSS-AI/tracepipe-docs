@@ -1,44 +1,33 @@
 # Tracepipe MVP GitHub Issues
 
 **Status**: Draft — not yet filed in GitHub  
-**Target Repository**: CRSS-AI/tracepipe (centralized milestone management)  
 **Generated**: 2026-02-11
 
 ---
 
-## Instructions for Filing Issues in GitHub
+## Overview
 
-This section provides guidance for creating these issues in the CRSS-AI/tracepipe repository.
+This document contains issues for the three Tracepipe MVP milestones. Issues are filed in their **native repositories** and tracked via a centralized GitHub Project.
 
-### Repository & Milestone Setup
+**Milestone Assignments**:
+- **Backend MVP**: Issues filed in `CRSS-AI/tracepipe-backend`
+- **Pipelines MVP**: Issues filed in `CRSS-AI/tracepipe-pipelines`
+- **Frontend MVP**: Issues filed in `CRSS-AI/tracepipe-frontend`
 
-**Target Repository**: `CRSS-AI/tracepipe`  
-**Rationale**: Centralized milestone management per AGENTS.md — all issues tracked in parent repo even though work happens in submodules.
+**Issue Codes**: BE-XX, PL-XX, FE-XX are reference codes within this document. GitHub will auto-assign actual issue numbers.
 
-**Existing GitHub Milestones** (already created):
-- Milestone #1: "Pipelines PoC" (use for Pipelines MVP issues)
-- Milestone #2: "Backend PoC" (use for Backend MVP issues)
-- Milestone #3: "Frontend PoC" (use for Frontend MVP issues)
+---
 
-**Note**: GitHub milestones say "PoC" but documentation says "MVP" — both terms refer to the same deliverables.
+## Filing Instructions
 
 ### Issue Naming Convention
 
-**Format**: `[Component] Brief Title`
+**Format**: `Brief Title` (no component prefix — repo is implicit)
 
 **Examples**:
-- `[Backend] Database Schema Migration from AutoActivity` (Issue BE-01)
-- `[Pipelines] Port Bronze Trace Loader` (Issue PL-01)
-- `[Frontend] Next.js Project Scaffolding` (Issue FE-01)
-- `[CI/CD] GitHub Actions Workflow for Backend` (Issue CC-01)
-
-**Component Prefixes**:
-- `[Backend]` — Backend API issues (BE-XX)
-- `[Pipelines]` — Data pipeline issues (PL-XX)
-- `[Frontend]` — Storefront UI issues (FE-XX)
-- `[CI/CD]` — DevOps/automation issues (CC-XX)
-- `[Docs]` — Documentation issues (CC-XX)
-- `[Integration]` — End-to-end testing issues (CC-XX)
+- `Create Tracepipe Database Schema` (Issue BE-01 → filed in tracepipe-backend)
+- `Port Bronze Trace Loader` (Issue PL-01 → filed in tracepipe-pipelines)
+- `Next.js Project Scaffolding` (Issue FE-01 → filed in tracepipe-frontend)
 
 ### Issue Body Template
 
@@ -108,15 +97,12 @@ Each issue should use this markdown template:
 
 ### Milestone Assignment
 
-| Issue Prefix | Milestone Number | Milestone Name |
-|--------------|------------------|----------------|
-| BE-01 through BE-23 | #2 | Backend PoC |
-| PL-01 through PL-19 | #1 | Pipelines PoC |
-| FE-01 through FE-11 | #3 | Frontend PoC |
-| CC-01 (Backend CI/CD) | #2 | Backend PoC |
-| CC-02 (Pipelines CI/CD) | #1 | Pipelines PoC |
-| CC-03 (Frontend CI/CD) | #3 | Frontend PoC |
-| CC-04, CC-05, CC-06 | No milestone (cross-cutting) | Leave unassigned or create "Infrastructure" milestone |
+| Issue Code | Milestone | Repository |
+|------------|-----------|------------|
+| BE-01 through BE-24 | Backend MVP | CRSS-AI/tracepipe-backend |
+| PL-01 through PL-16 | Pipelines MVP | CRSS-AI/tracepipe-pipelines |
+| FE-01 through FE-10 | Frontend MVP | CRSS-AI/tracepipe-frontend |
+| CC-01 through CC-06 | (varies) | Component-specific |
 
 ### Label Mapping from Document
 
@@ -156,62 +142,21 @@ For each issue, apply labels based on these fields:
 5. **Frontend** (FE-01 through FE-11) — Depends on backend APIs
 6. **Cross-Cutting** (CC-01 through CC-06) — Can be done in parallel
 
-### Automation Recommendations
-
-**Using GitHub CLI** (`gh`):
+### Automation with GitHub CLI
 
 ```bash
 # Create an issue with labels and milestone
 gh issue create \
-  --repo CRSS-AI/tracepipe \
-  --title "[Backend] Database Schema Migration from AutoActivity" \
+  --repo CRSS-AI/tracepipe-backend \
+  --title "Create Tracepipe Database Schema" \
   --body-file issue-be-01.md \
-  --milestone "Backend PoC" \
-  --label "status: adaptation,priority: P0,component: backend,type: refactor"
-
-# Bulk create issues from a script
-for issue in issues/*.md; do
-  gh issue create --repo CRSS-AI/tracepipe --body-file "$issue" --label "..." --milestone "..."
-done
+  --milestone "Backend MVP" \
+  --label "status: new,priority: P0,type: feature"
 ```
-
-**Scripting Approach** (optional):
-- Extract each issue from this document into separate markdown files
-- Parse metadata (status, priority, component) to generate labels
-- Use GitHub CLI or API to create issues programmatically
-- Link issues automatically (e.g., "Depends on #XX") after creation
-
-### Post-Filing Steps
-
-After all issues are filed:
-
-1. **Review dependencies** — Add "Depends on #XX" or "Blocks #YY" to issue bodies
-2. **Assign issues** — Assign to team members based on expertise
-3. **Create project board** — Organize issues in GitHub Projects with columns: Backlog, In Progress, Review, Done
-4. **Set up automation** — Configure GitHub Actions to update issue status based on PR merges
-5. **Link PRs to issues** — Use "Closes #XX" in PR descriptions to auto-close issues
 
 ### Cross-Repository Tracking
 
-Since work happens in submodules but issues are tracked in the parent repo:
-
-**In Pull Requests** (in submodule repos):
-- Reference parent repo issues: `Closes CRSS-AI/tracepipe#XX`
-- This will auto-close the issue in the parent repo when PR merges
-
-**Example PR Title** (in tracepipe-backend):
-```
-[Backend] Implement Session Upload Endpoint (CRSS-AI/tracepipe#XX)
-```
-
-**In Commit Messages** (in submodules):
-```
-feat(session): implement upload endpoint
-
-Implements multipart form upload for session traces.
-
-Closes CRSS-AI/tracepipe#XX
-```
+Issues are tracked in a centralized GitHub Project that aggregates from all repos. When referencing issues across repos, use the format: `CRSS-AI/tracepipe-backend#XX`.
 
 ### Label Creation Script
 
@@ -267,86 +212,91 @@ Each issue includes:
 
 ## Milestone #2: Backend MVP
 
-**GitHub Milestone**: #2 "Backend PoC"  
 **Target Repo**: CRSS-AI/tracepipe-backend
 
 ### 1. Backend Infrastructure
 
-#### Issue BE-01: Database Schema Migration from AutoActivity
-**Status**: `[ADAPTATION]` | **Priority**: `P0`  
-**Predecessor**: autoactivity-be has full SQLAlchemy models + Alembic migrations
+#### Issue BE-01: Create Tracepipe Database Schema
+**Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
-Refactor the autoactivity-be database schema to align with the Tracepipe data model. Remove Task/Activity/Case/Instance orchestration entities and add simplified Session and Example entities.
+Create the Tracepipe database schema from scratch. This is a **new database** (not migrating from autoactivity). We are standing up a fresh `tracepipe` DB with the simplified data model: Capability Surface entities (Suite, Action, McpServer, Tool, ActionToolMap) plus execution entities (User, Session, Example, Model).
 
 **Changes Required**:
-- Remove tables: `activities`, `activity_edges`, `tasks`, `cases`, `instances`, `human_instances`, `agent_instances`, `instance_actions`
-- Keep tables: `users`, `suites`, `actions`, `action_parameters`, `mcp_servers`, `tools`, `tool_parameters`, `action_tool_maps`, `action_tool_mappings`, `action_tool_parameter_mappings`, `models`, `providers` (if separate table)
-- Modify `sessions` table: Remove foreign keys to `instances`, add `suite_id` foreign key, update `storage_path` convention
-- Add `examples` table with columns: `id`, `session_id`, `model_id`, `action_tool_map_id`, `model_configuration` (JSONB), `storage_path`, `created_at`
-- Simplify `traces` table (if it exists) to reference sessions only
+- Create PostgreSQL database: `tracepipe`
+- Create tables: `users`, `suites`, `actions`, `action_parameters`, `mcp_servers`, `tools`, `tool_parameters`, `action_tool_maps`, `action_tool_mappings`, `action_tool_parameter_mappings`, `models`, `sessions`, `examples`
+- Create Alembic migrations for schema
+- `sessions` table: `id` (UUID), `user_id` (FK), `suite_id` (FK), `description` (TEXT, nullable), `storage_path` (String), `created_at` (Timestamp)
+- `examples` table: `id` (UUID), `session_id` (FK), `model_id` (FK), `action_tool_map_id` (FK), `model_configuration` (JSONB), `storage_path` (String), `status` (ENUM: pending, processing, completed, failed), `created_at` (Timestamp)
 
 **Acceptance Criteria**:
-- [ ] Alembic migration script created for schema changes
-- [ ] All removed tables are dropped
-- [ ] `sessions` table matches new data model (see `tracepipe-docs/docs/data_model.md`)
-- [ ] `examples` table created with all required columns and foreign keys
-- [ ] Migration runs successfully on empty database
+- [ ] All tables created with correct schemas
+- [ ] Foreign key constraints enforced
+- [ ] Alembic migration script runs successfully
 - [ ] Rollback migration works
+- [ ] `Session.description` field exists (nullable TEXT)
+- [ ] `Example.status` field exists (ENUM with 4 values)
 
-**Autoactivity Reference**: 
-- `autoactivity-be/alembic/versions/` (4 existing migrations)
-- `autoactivity-be/src/autoactivity/data/models/` (SQLAlchemy models)
+**Reference**:
+- See `tracepipe-docs/docs/data_model.md` for authoritative entity schemas
 
 ---
 
-#### Issue BE-02: Remove Orchestration Layer Code
+#### Issue BE-02: Port Core Application Scaffolding
 **Status**: `[ADAPTATION]` | **Priority**: `P0`
 
 **Description**:
-Remove all code related to Task/Activity/Case/Instance orchestration that doesn't exist in the Tracepipe model. Clean up imports, tests, and dependencies.
+The `tracepipe-backend` repo is currently **empty**. Port relevant application scaffolding from autoactivity-be to bootstrap the project: FastAPI app structure, domain/application/data layers, configuration management, and core utilities.
 
-**Files to Remove/Modify**:
-- Remove: `src/autoactivity/domain/task/`, `domain/activity/`, `domain/case/`, `domain/instance/`
-- Remove: `src/autoactivity/application/task.py`, `application/case.py`, `application/instance.py`
-- Remove: `src/autoactivity/api/v1/controllers/task.py`, `controllers/case.py`, `controllers/instance.py`
-- Remove: `src/autoactivity/data/repositories/task_repository.py`, `case_repository.py`, `instance_repository.py`
-- Update: `main.py` to remove orchestration route registrations
-- Remove: All tests for removed entities
+**Files to Port**:
+- Port: FastAPI application setup (`main.py`, router registration)
+- Port: Core configuration (`config.py`, environment variable management)
+- Port: Database session management (`database.py`)
+- Port: Domain service patterns
+- Port: Repository patterns
+- Port: API v1 structure (`api/v1/`)
+- Skip: Any Task/Activity/Case/Instance code (doesn't exist in Tracepipe)
 
 **Acceptance Criteria**:
-- [ ] No references to Task/Activity/Case/Instance in codebase
-- [ ] Application starts without errors
-- [ ] Test suite passes (orchestration tests removed)
-- [ ] No orphaned imports or dependencies
+- [ ] FastAPI application starts successfully
+- [ ] Database connection works
+- [ ] Environment configuration loads
+- [ ] API versioning structure (`/v1/`) in place
+- [ ] Health check endpoint responds
+- [ ] Test suite structure exists
 
-**Autoactivity Reference**: autoactivity-be has ~60+ closed issues for Case/Instance CRUD
+**Autoactivity Reference**: autoactivity-be provides the application architecture pattern
 
 ---
 
-#### Issue BE-03: API Key Authentication Middleware Integration
-**Status**: `[CARRY-OVER]` | **Priority**: `P0`
+#### Issue BE-03: Azure Entra External ID Authentication Integration
+**Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
-Port the existing API key authentication middleware from autoactivity-be. Ensure it works with the Tracepipe User model and validates `X-API-Key` headers.
+Integrate Azure Entra External ID (formerly Azure AD B2C) for authentication across the platform. This is the identity provider for **both** the frontend (user login/registration) and the backend (token validation). Backend must validate Entra ID tokens on protected endpoints.
 
-**Carry-Over Work**:
-- `autoactivity-be/src/autoactivity/core/security.py` has `verify_api_key()` dependency
-- Authentication already implemented and tested
+**Requirements**:
+- Configure Azure Entra External ID tenant
+- Backend: Implement JWT token validation middleware
+- Backend: Extract user identity from validated tokens
+- Backend: Support both Entra ID tokens (for frontend) and API keys (for programmatic access)
+- Protected endpoints require valid auth (token or API key)
 
-**Changes Required**:
-- Copy `core/security.py` authentication logic
-- Verify User model compatibility (UUID ids, api_keys relationship)
-- Apply to all protected endpoints via FastAPI dependencies
+**Implementation**:
+- Use `azure-identity` or `msal` libraries for token validation
+- Middleware validates `Authorization: Bearer <token>` headers
+- Falls back to API key validation if no Bearer token present
+- User context available to all protected endpoint handlers
 
 **Acceptance Criteria**:
-- [ ] `verify_api_key()` dependency function exists
-- [ ] Validates API keys against `users` table
-- [ ] Returns 401 for missing/invalid keys
-- [ ] Returns User context for valid keys
-- [ ] All protected endpoints use this dependency
+- [ ] Azure Entra External ID tenant configured
+- [ ] Backend validates Entra ID JWT tokens
+- [ ] Invalid/expired tokens return 401
+- [ ] User identity extracted from valid tokens
+- [ ] API key fallback works for programmatic access
+- [ ] All protected endpoints use auth middleware
 
-**Autoactivity Reference**: autoactivity-be #31 (closed: "API key handling")
+**Note**: This is cross-cutting — frontend issue FE-02 covers the client-side integration.
 
 ---
 
@@ -404,28 +354,29 @@ Adapt the Session model from autoactivity-be to match the simplified Tracepipe d
 ---
 
 #### Issue BE-06: Session Upload Endpoint (POST /v1/sessions)
-**Status**: `[ADAPTATION]` | **Priority**: `P0**Description**:
-Implement the Session upload endpoint. Accept multipart form data with trace bundles (input_events.jsonl, network_traffic.jsonl, screenshots.zip) and store at the new storage path convention.
+**Status**: `[ADAPTATION]` | **Priority**: `P0`
+
+**Description**:
+Implement the Session upload endpoint. Accept **input trace files only** (not screenshots or network traffic). Store at the new storage path convention.
 
 **Changes Required**:
 - Endpoint: `POST /v1/sessions`
-- Request: Multipart form with files + `suite_id` field
-- Storage path: `sessions/<session-id>/` (not instance-based like autoactivity)
+- Request: Multipart form with trace file(s) + `suite_id` field + optional `description` field
+- Accepted files: Input trace data (e.g., `input_events.jsonl`)
+- Storage path: `sessions/<session-id>/` 
 - Upload to object storage (Azure Blob Storage)
 - Create Session record in database
 
 **Acceptance Criteria**:
 - [ ] Endpoint accepts multipart/form-data
-- [ ] Validates required files (input_events.jsonl, network_traffic.jsonl, screenshots.zip)
+- [ ] Validates required trace file(s)
 - [ ] Stores files at `sessions/<uuid>/` in object storage
-- [ ] Creates Session record with correct `storage_path`
+- [ ] Creates Session record with `storage_path`, `suite_id`, and optional `description`
 - [ ] Returns Session metadata (id, storage_path, created_at)
 - [ ] Returns 400 for invalid suite_id
 - [ ] Returns 401 for unauthenticated requests
 
-**Autoactivity Reference**: 
-- autoactivity-be #58 (closed: "Update session storage logic")
-- autoactivity-be/src/autoactivity/application/session.py
+**Note**: We are **only accepting input traces** — no screenshots, no network traffic.
 
 ---
 
@@ -457,60 +408,52 @@ Implement Session retrieval endpoints for listing and getting individual session
 
 ### 3. Capability Service
 
-#### Issue BE-08: Suite CRUD Endpoints
+#### Issue BE-08: Suite Read-Only Endpoints
 **Status**: `[ADAPTATION]` | **Priority**: `P0`
 
 **Description**:
-Extend the existing Suite service from autoactivity-be to support full CRUD operations. Currently only list is implemented.
+Implement read-only endpoints for Suites. **Suites are platform-controlled** — users do not create, update, or delete them. Users query the catalog of available Suites.
 
-**Current State** (autoactivity-be):
-- `GET /suites/` — ✅ Implemented
-- `GET /suites/{id}` — ❌ NotImplementedError
-- `POST /suites/` — ❌ NotImplementedError
-- `PUT /suites/{id}` — ❌ NotImplementedError
-- `DELETE /suites/{id}` — ❌ NotImplementedError
+**Endpoints**:
+- `GET /v1/suites` — List all suites
+- `GET /v1/suites/{id}` — Get suite details
 
 **Changes Required**:
-- Implement `get_by_id()`, `create()`, `update()`, `delete()` in domain service
-- Add controller methods for each endpoint
-- Request/response DTOs for create/update
+- Repository: `get_by_id()`, `list_all()`
+- Domain service: Read-only operations
+- Controller: GET endpoints only
 
 **Acceptance Criteria**:
-- [ ] All 5 CRUD endpoints implemented
-- [ ] Create validates required fields (name)
-- [ ] Update allows partial updates
-- [ ] Delete cascades to actions and action_tool_maps
+- [ ] List endpoint returns all suites
+- [ ] Get endpoint returns single suite with actions
 - [ ] Returns 404 for non-existent suites
+- [ ] No create/update/delete endpoints exist
 
 **Autoactivity Reference**: 
-- autoactivity-be/src/autoactivity/domain/suite/ (partial implementation)
+- autoactivity-be/src/autoactivity/domain/suite/ (has partial implementation)
 
 ---
 
-#### Issue BE-09: Action CRUD Endpoints
+#### Issue BE-09: Action Read-Only Endpoints
 **Status**: `[ADAPTATION]` | **Priority**: `P0`
 
 **Description**:
-Extend the existing Action service to support full CRUD operations. Currently only get_by_id is implemented.
+Implement read-only endpoints for Actions. **Actions are platform-controlled** — users do not create or modify them. Users query the action catalog for a given Suite.
 
-**Current State** (autoactivity-be):
-- `GET /actions/{id}` — ✅ Implemented
-- `GET /suites/{suite_id}/actions` — ❌ NotImplementedError
-- `POST /suites/{suite_id}/actions` — ❌ NotImplementedError
-- `PUT /actions/{id}` — ❌ NotImplementedError
-- `DELETE /actions/{id}` — ❌ NotImplementedError
+**Endpoints**:
+- `GET /v1/suites/{suite_id}/actions` — List actions for a suite
+- `GET /v1/actions/{id}` — Get action details with parameters
 
 **Changes Required**:
-- Implement missing methods in domain service
-- Nested routes under `/suites/{suite_id}/actions`
-- ActionParameter handling (nested creation)
+- Repository: `get_by_id()`, `list_by_suite()`
+- Domain service: Read-only operations
+- Controller: GET endpoints only, nested under suites
 
 **Acceptance Criteria**:
-- [ ] List actions for a suite
-- [ ] Create action with parameters
-- [ ] Update action and parameters
-- [ ] Delete action (cascades to parameters and mappings)
+- [ ] List actions for a suite works
+- [ ] Get action returns action with parameters
 - [ ] Returns 404 for non-existent suite/action
+- [ ] No create/update/delete endpoints exist
 
 **Autoactivity Reference**: 
 - autoactivity-be #109 (closed: "Implement action inventory endpoint")
@@ -518,68 +461,58 @@ Extend the existing Action service to support full CRUD operations. Currently on
 
 ---
 
-#### Issue BE-10: McpServer CRUD Endpoints
-**Status**: `[CARRY-OVER]` | **Priority**: `P1`
+#### Issue BE-10: McpServer Read-Only Endpoints
+**Status**: `[ADAPTATION]` | **Priority**: `P1`
 
 **Description**:
-Implement CRUD endpoints for McpServer entities. This is similar to Suite but for the agent-facing tool catalog.
+Implement read-only endpoints for McpServer entities. **McpServers are platform-controlled** — users do not create or modify them. This may change in the future with "Bring Your Own MCP Server" (BYOMCP), but security implications need study first.
 
 **Endpoints**:
 - `GET /v1/mcp-servers` — List all MCP servers
 - `GET /v1/mcp-servers/{id}` — Get MCP server with tools
-- `POST /v1/mcp-servers` — Create MCP server
-- `PUT /v1/mcp-servers/{id}` — Update MCP server
-- `DELETE /v1/mcp-servers/{id}` — Delete MCP server
 
 **Acceptance Criteria**:
-- [ ] All CRUD operations work
-- [ ] Create validates required fields (name)
-- [ ] Get returns nested tools
-- [ ] Delete cascades to tools and action_tool_maps
+- [ ] List all MCP servers works
+- [ ] Get MCP server returns server with nested tools
+- [ ] Returns 404 for non-existent servers
+- [ ] No create/update/delete endpoints exist
+
+**Note**: Future BYOMCP support would require additional security review before enabling user-managed MCP servers.
 
 ---
 
-#### Issue BE-11: Tool CRUD Endpoints (Nested under McpServer)
-**Status**: `[NEW]` | **Priority**: `P1`
+#### Issue BE-11: Tool Read-Only Endpoints
+**Status**: `[ADAPTATION]` | **Priority**: `P1`
 
 **Description**:
-Implement nested CRUD for Tools under McpServers.
+Tools are always served with their MCP server. Implement read-only endpoint to list tools for a given MCP server. **Tools are platform-controlled** — users do not create loose tools.
 
 **Endpoints**:
-- `GET /v1/mcp-servers/{id}/tools` — List tools
-- `POST /v1/mcp-servers/{id}/tools` — Create tool
-- `PUT /v1/tools/{id}` — Update tool
-- `DELETE /v1/tools/{id}` — Delete tool
+- `GET /v1/mcp-servers/{id}/tools` — List tools for an MCP server
 
 **Acceptance Criteria**:
-- [ ] List filters by mcp_server_id
-- [ ] Create validates mcp_server_id exists
-- [ ] Tool parameters are included in responses
-- [ ] Delete cascades to parameters and mappings
+- [ ] List tools for MCP server works
+- [ ] Returns tools with parameters
+- [ ] Returns 404 for non-existent MCP server
+- [ ] No individual tool query or create/update/delete endpoints exist
 
 ---
 
-#### Issue BE-12: ActionToolMap CRUD Endpoints
-**Status**: `[CARRY-OVER]` | **Priority**: `P0`
+#### Issue BE-12: ActionToolMap Read-Only Endpoints
+**Status**: `[ADAPTATION]` | **Priority**: `P0`
 
 **Description**:
-Port the ActionToolMap CRUD implementation from autoactivity-be. This entity binds Suites to McpServers.
+Implement read-only endpoints for ActionToolMaps. **ActionToolMaps are platform-controlled** — users cannot modify suite-to-MCP-server bindings. Users query available mappings.
 
-**Carry-Over Work**:
-- Full CRUD already implemented in autoactivity-be
-- Includes nested ActionToolMapping creation
-
-**Changes Required**:
-- Copy implementation from autoactivity-be
-- Verify compatibility with simplified data model
-- Ensure cascading deletes work
+**Endpoints**:
+- `GET /v1/action-tool-maps` — List all maps
+- `GET /v1/action-tool-maps/{id}` — Get map with nested mappings
 
 **Acceptance Criteria**:
-- [ ] All CRUD operations work
-- [ ] Can create with nested tool mappings
-- [ ] Can create with nested parameter mappings
-- [ ] GET includes full mapping tree
-- [ ] Delete cascades correctly
+- [ ] List endpoint returns all maps
+- [ ] Get endpoint returns map with full mapping tree (toolMappings, parameterMappings)
+- [ ] Returns 404 for non-existent maps
+- [ ] No create/update/delete endpoints exist
 
 **Autoactivity Reference**: 
 - autoactivity-be #215 (open: "Update action_tool_maps endpoint to retrieve mcp server's information")
@@ -698,54 +631,86 @@ Implement user-facing API key CRUD endpoints. AutoActivity has key validation bu
 
 ---
 
-### 6. A2P & MCP Integration
+### 6. Payment Models & Example Creation
 
-#### Issue BE-18: A2P (Agent-to-Platform) Endpoint
-**Status**: `[NEW]` | **Priority**: `P1`
+#### Issue BE-18: Example Creation & Processing Endpoint with Payment Models
+**Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
-Implement the Agent-to-Platform protocol endpoint for agents to submit requests to the platform.
+Implement Example creation endpoint that triggers pipeline processing. Support multiple payment models:
 
-**Endpoint**: `POST /v1/a2p/requests`
+1. **Human users with API key**: Card on file, usage billed monthly (tokens, storage×time)
+2. **MCP with API key**: Same as human users — charges to card behind the API key
+3. **Apple Pay 2 (AP2) agents** (P2 priority): Stateless payment model for agents that can't store cards
 
-**Request Body**:
+**Apple Pay 2 (AP2) Model**:
+AP2 mandates that payment methods cannot be stored and charged on-demand. For AP2 agents, implement a deposit-based flow:
+- Agent sends: trace file + configuration + AP2 payment token
+- Backend charges 1.5x estimated compute cost as deposit
+- Backend creates Example record with `status: pending`, returns example ID
+- Pipeline processes asynchronously
+- Agent polls for completion (Example held for 24 hours)
+- Excess deposit refunded when agent retrieves the completed Example
+
+**Endpoints**:
+- `POST /v1/examples` — Create Example (for API key users: card on file)
+- `POST /v1/ap2/examples` — Create Example (for AP2 agents: deposit model) [P2]
+
+**Request** (`POST /v1/examples`):
 ```json
 {
-  "agentId": "string",
-  "payload": {...}
+  "session_id": "uuid",
+  "model_id": "uuid",
+  "action_tool_map_id": "uuid",
+  "model_configuration": {"temperature": 0.7, ...}
 }
 ```
 
-**Acceptance Criteria**:
-- [ ] Endpoint accepts A2P requests
-- [ ] Validates agent authentication
-- [ ] Returns structured response
-- [ ] Logs requests for audit
+**Example Status Field**:
+Examples have a `status` ENUM field:
+- `pending`: Created, awaiting processing
+- `processing`: Pipeline is running
+- `completed`: JSONL ready for download
+- `failed`: Processing error
 
-**Note**: Detailed A2P protocol spec TBD — this is scaffolding.
+**Acceptance Criteria**:
+- [ ] `POST /v1/examples` creates Example with `status: pending`
+- [ ] Triggers AzureML pipeline via endpoint
+- [ ] Returns Example ID immediately (async processing)
+- [ ] Supports optional callback URL for status updates
+- [ ] AP2 endpoint (P2) accepts payment token and charges deposit
+- [ ] AP2 flow refunds excess when agent retrieves completed Example
+- [ ] All payment models track usage for billing
+
+**Note**: This replaces the wrongly-scoped PL-11/PL-12 issues. Processing orchestration is triggered by the backend, not by the pipelines themselves.
 
 ---
 
-#### Issue BE-19: MCP Server Endpoint
-**Status**: `[NEW]` | **Priority**: `P1`
+#### Issue BE-19: MCP Server Interface
+**Status**: `[NEW]` | **Priority**: `P2`
 
 **Description**:
-Implement an MCP (Model Context Protocol) server endpoint that exposes Tracepipe tools to LLM agents.
+Add MCP (Model Context Protocol) server interface to expose Tracepipe operations as tools for LLM agents. Follow the pattern: MCPService as a sub-service with read-only endpoints for listing MCP servers and their tools.
 
-**Endpoints**:
-- `GET /v1/mcp/tools` — List available tools
-- `POST /v1/mcp/execute` — Execute a tool
+**Pattern** (from reference project):
+- Create `MCPService` class that wraps `MCPServerRepository`
+- Expose as sub-service via composition in main service layer
+- Provide async `list_mcp_servers()` and `get_mcp_server(id)` operations
+- API endpoints: `GET /v1/mcp` and `GET /v1/mcp/{id}`
 
-**Tools to Expose**:
+**Tools to Expose** (via MCP):
 - `get_examples` — Retrieve training examples
-- `get_session_trace` — Retrieve session trace data
+- `get_session` — Retrieve session trace data
 - `list_suites` — List available suites
 
 **Acceptance Criteria**:
-- [ ] MCP-compatible tool listing
-- [ ] Tool execution works via POST
-- [ ] Integrates with existing services (no duplication)
-- [ ] Returns MCP-standard responses
+- [ ] MCPService class exists as sub-service
+- [ ] `GET /v1/mcp` lists MCP servers
+- [ ] `GET /v1/mcp/{id}` returns server with tools
+- [ ] MCP-compatible tool definitions returned
+- [ ] Integrates with existing repository layer
+
+**Reference**: See agent-registry MCP service pattern for implementation approach.
 
 ---
 
@@ -772,13 +737,13 @@ Generate and publish OpenAPI 3.0 specification for the Tracepipe API.
 
 ---
 
-### 8. Database & Migrations
+### 7. Database & Migrations
 
 #### Issue BE-21: Model Entity Implementation
-**Status**: `[CARRY-OVER]` | **Priority**: `P2`
+**Status**: `[CARRY-OVER]` | **Priority**: `P0`
 
 **Description**:
-Port the Model entity from autoactivity-be. Represents LLM/policy artifacts.
+Port the Model entity from autoactivity-be. Represents LLM/policy artifacts. **P0 because Examples depend on Models.**
 
 **Schema**:
 - `id` (UUID, PK)
@@ -802,27 +767,55 @@ Port the Model entity from autoactivity-be. Represents LLM/policy artifacts.
 **Status**: `[ADAPTATION]` | **Priority**: `P2`
 
 **Description**:
-Create database seeding script for development/testing with sample data.
+Create database seeding script for development/testing. Follow the SQL-based, idempotent pattern from the reference project.
+
+**Approach**:
+- SQL file: `scripts/seed.sql`
+- Idempotent: Use `ON CONFLICT DO NOTHING` for all inserts
+- Fixed UUIDs for test data (easy referencing in tests)
+- Hierarchical seed: Models → Suites → Actions → McpServers → Tools → ActionToolMaps → Test User with API key
 
 **Seed Data**:
+- 2-3 Models (GPT-4, Claude-3)
 - 2-3 Suites (Gmail, Google Calendar, GitHub)
 - Actions for each Suite
 - 2-3 McpServers with Tools
 - ActionToolMaps binding Suites to McpServers
-- Test User with API key
-- Sample Models (GPT-4, Claude-3)
+- Test User with known API key
 
 **Acceptance Criteria**:
-- [ ] Script runs idempotently
-- [ ] Creates all capability surface entities
-- [ ] Creates test user with known API key
-- [ ] Runnable via CLI: `python -m scripts.seed_db`
+- [ ] `seed.sql` file exists
+- [ ] All inserts are idempotent (`ON CONFLICT DO NOTHING`)
+- [ ] Fixed UUIDs used for entities
+- [ ] Runnable via: `psql -d tracepipe -f scripts/seed.sql`
+- [ ] Creates complete capability surface
 
-**Autoactivity Reference**: autoactivity-be #68 (closed: "Implement scripting to add Gmail action inventory to db")
+**Reference**: See agent-registry `scripts/seed.sql` for pattern.
 
 ---
 
-#### Issue BE-23: Integration Tests for End-to-End Flows
+#### Issue BE-23: OpenAPI Specification
+**Status**: `[NEW]` | **Priority**: `P1`
+
+**Description**:
+Generate and publish OpenAPI 3.0 specification for the Tracepipe API.
+
+**Deliverables**:
+- `openapi.json` file generated from FastAPI
+- Served at `/v1/openapi.json`
+- Swagger UI at `/v1/docs`
+- ReDoc at `/v1/redoc`
+
+**Acceptance Criteria**:
+- [ ] All endpoints documented with descriptions
+- [ ] Request/response schemas included
+- [ ] Authentication documented (Bearer token + X-API-Key header)
+- [ ] Examples provided for common operations
+- [ ] Accessible without authentication
+
+---
+
+#### Issue BE-24: Integration Tests for End-to-End Flows
 **Status**: `[ADAPTATION]` | **Priority**: `P1`
 
 **Description**:
@@ -830,8 +823,8 @@ Port and adapt integration tests from autoactivity-be. Test complete user journe
 
 **Test Scenarios**:
 1. User uploads session → retrieves session metadata
-2. Create suite → create actions → create action-tool-map
-3. Pipeline creates example → user retrieves example messages
+2. User requests Example processing → polls status → downloads JSONL
+3. Query capability surface (suites, actions, tools)
 4. Generate API key → use key to authenticate → revoke key
 
 **Acceptance Criteria**:
@@ -847,7 +840,6 @@ Port and adapt integration tests from autoactivity-be. Test complete user journe
 
 ## Milestone #1: Pipelines MVP
 
-**GitHub Milestone**: #1 "Pipelines PoC"  
 **Target Repo**: CRSS-AI/tracepipe-pipelines
 
 ### 1. Pipeline Foundation
@@ -856,25 +848,27 @@ Port and adapt integration tests from autoactivity-be. Test complete user journe
 **Status**: `[ADAPTATION]` | **Priority**: `P0`
 
 **Description**:
-Adapt the Bronze layer trace extraction from autoactivity-data. Update to work with the new Session storage convention (`sessions/<id>/` instead of instance-based paths).
+Adapt the Bronze layer trace extraction from autoactivity-data. Update to work with the new Session storage convention and **Session.description field** (optional user context on what traces represent).
 
 **Carry-Over Work**:
 - autoactivity-data bronze extraction is complete and tested
-- Handles input events, screenshots, session metadata
+- Handles input events and session metadata
 
 **Changes Required**:
-- Update storage path logic: `sessions/<session-id>/` instead of `raw/<session-uuid>/`
-- Update Backend API integration: Call `/v1/sessions/{id}` instead of instance endpoints
+- Update storage path logic: `sessions/<session-id>/`
+- Update Backend API integration: Call `/v1/sessions/{id}` to fetch Session including `description` field
 - Remove Instance/Case metadata fetch (use Suite metadata from Session)
 - Update Parquet schema to remove instance-related columns
+- Include `Session.description` in metadata if present
 
 **Acceptance Criteria**:
 - [ ] Loads traces from new storage paths
 - [ ] Validates JSONL structure
-- [ ] Extracts screenshots with timestamps
-- [ ] Fetches Session and Suite metadata from Backend API
+- [ ] Fetches Session (including `description`) and Suite metadata from Backend API
 - [ ] Outputs Bronze Parquet with correct schema
 - [ ] Generates metrics JSON
+
+**Note**: Session now has an optional `description` field (user-provided context), replacing the removed `task_instructions`.
 
 **Autoactivity Reference**: 
 - autoactivity-data #1, #12 (closed)
@@ -1016,51 +1010,11 @@ Implement the Parameter Extraction stage (currently a stub). Extract action para
 
 ---
 
-#### Issue PL-07: Implement LLM-Based Action Classifier
-**Status**: `[NEW]` | **Priority**: `P0`
-
-**Description**:
-Implement the core action classification stage using LLM to map trace evidence to canonical Actions.
-
-**Implementation**:
-- Assemble multimodal trace context (events + screenshots)
-- Fetch Suite-specific action inventory from Backend API
-- Prompt LLM with trace evidence and action candidates
-- Parse LLM response to extract action_id and parameters
-- Assign confidence score
-
-**Prompt Structure**:
-```
-You are analyzing a browser trace to identify user actions.
-
-Suite: Gmail
-Available Actions:
-1. compose_email (to: string, subject: string, body: string)
-2. send_email ()
-3. reply_to_email (body: string)
-
-Trace Evidence:
-[Events + Screenshots]
-
-Identify which action was performed and extract parameters.
-```
-
-**Acceptance Criteria**:
-- [ ] Integrates with OpenRouter or LLM API
-- [ ] Fetches action inventory from Backend API
-- [ ] Sends multimodal context (events + base64 screenshots)
-- [ ] Parses structured LLM response
-- [ ] Assigns confidence score (0.0-1.0)
-- [ ] Handles low-confidence classifications (flag for review)
-
-**Autoactivity Reference**: 
-- autoactivity-data #6 (open: "Build PoC for LLM-based action sequence classification")
-
 ---
 
 ### 3. Example Generation Pipeline
 
-#### Issue PL-08: Implement Example Extraction Stage
+#### Issue PL-07: Implement Example Extraction Stage
 **Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
@@ -1087,7 +1041,7 @@ Implement the first stage of example generation: fetch agent definitions and act
 
 ---
 
-#### Issue PL-09: Implement Action-to-Tool Mapping Stage
+#### Issue PL-08: Implement Action-to-Tool Mapping Stage
 **Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
@@ -1113,7 +1067,7 @@ Implement the mapping stage: convert classified actions to MCP tool call format.
 
 ---
 
-#### Issue PL-10: Implement JSONL Message Generator
+#### Issue PL-09: Implement JSONL Message Generator
 **Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
@@ -1222,7 +1176,7 @@ Port the trace validation logic from autoactivity-data bronze layer. Ensure uplo
 
 ---
 
-#### Issue PL-14: Classification Confidence Scoring
+#### Issue PL-11: Classification Confidence Scoring
 **Status**: `[NEW]` | **Priority**: `P1`
 
 **Description**:
@@ -1242,7 +1196,7 @@ Implement confidence scoring for LLM action classifications. Flag low-confidence
 
 ---
 
-#### Issue PL-15: Integration Tests for Pipeline Stages
+#### Issue PL-12: Integration Tests for Pipeline Stages
 **Status**: `[ADAPTATION]` | **Priority**: `P1`
 
 **Description**:
@@ -1264,9 +1218,9 @@ Port and adapt integration tests from autoactivity-data. Test each pipeline stag
 
 ---
 
-### 6. Infrastructure
+### 5. Infrastructure
 
-#### Issue PL-16: Pipeline Configuration Management
+#### Issue PL-13: Pipeline Configuration Management
 **Status**: `[NEW]` | **Priority**: `P2`
 
 **Description**:
@@ -1292,7 +1246,7 @@ Implement configuration management for pipeline settings (LLM provider, API keys
 
 ---
 
-#### Issue PL-17: Pipeline Metrics & Logging
+#### Issue PL-14: Pipeline Metrics & Logging
 **Status**: `[CARRY-OVER]` | **Priority**: `P2`
 
 **Description**:
@@ -1322,26 +1276,7 @@ Port the metrics generation from autoactivity-data. Track processing stats and p
 
 ---
 
-#### Issue PL-18: Docker & Deployment Configuration
-**Status**: `[NEW]` | **Priority**: `P2`
-
-**Description**:
-Create Docker and deployment configs for the pipeline workers.
-
-**Deliverables**:
-- `Dockerfile` for pipeline workers
-- `docker-compose.yml` with worker + queue + storage
-- Kubernetes manifests (optional, future)
-
-**Acceptance Criteria**:
-- [ ] Dockerfile builds successfully
-- [ ] Docker Compose starts worker + dependencies
-- [ ] Worker connects to Backend API
-- [ ] Worker connects to object storage
-
----
-
-#### Issue PL-19: AzureML Pipeline Runner (Optional)
+#### Issue PL-15: AzureML Pipeline Runner (Optional)
 **Status**: `[NEW]` | **Priority**: `P2` (Deferred)
 
 **Description**:
@@ -1361,16 +1296,21 @@ Implement AzureML cloud runner for pipeline execution. This enables scalable clo
 - [ ] Outputs written to Azure Blob Storage
 - [ ] Logs accessible via AzureML UI
 
-**Note**: This is optional for MVP; local runner is sufficient.
+**Note**: This is optional for MVP; AzureML handles deployment and orchestration natively.
 
 **Autoactivity Reference**: 
 - autoactivity-data #2, #4, #5 (open: AzureML setup issues)
+
+**Dropped Issues**:
+- PL-07 (LLM Action Classifier) — **DROPPED**: Redundant with PL-05 (Window Classification)
+- PL-11 (Processing Orchestrator) — **MOVED TO BACKEND** as BE-18 (Example Creation & Processing Endpoint)
+- PL-12 (Processing Status API) — **MOVED TO BACKEND** as part of BE-18 (Example status field)
+- PL-18 (Docker & Deployment) — **DROPPED**: AzureML handles deployment
 
 ---
 
 ## Milestone #3: Frontend MVP
 
-**GitHub Milestone**: #3 "Frontend PoC"  
 **Target Repo**: CRSS-AI/tracepipe-frontend
 
 ### 1. Project Setup
@@ -1402,11 +1342,11 @@ Initialize the frontend project with chosen framework (Next.js recommended for B
 
 ---
 
-#### Issue FE-02: Azure AD B2C Authentication Integration
+#### Issue FE-02: Azure Entra External ID Client Integration
 **Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
-Integrate Azure AD B2C (Microsoft Entra External ID) for user authentication.
+Integrate Azure Entra External ID (formerly Azure AD B2C) for frontend user authentication. This is the **client-side** portion of cross-cutting auth — see BE-03 for backend token validation.
 
 **Requirements**:
 - User registration flow
@@ -1417,9 +1357,10 @@ Integrate Azure AD B2C (Microsoft Entra External ID) for user authentication.
 
 **Implementation**:
 - Use `@azure/msal-browser` or `@azure/msal-react`
-- Configure Azure AD B2C tenant
+- Configure against same Entra ID tenant as backend
 - Implement auth provider component
 - Store tokens securely (httpOnly cookies or secure storage)
+- Pass Bearer tokens to backend in API requests
 
 **Acceptance Criteria**:
 - [ ] User can register new account
@@ -1428,6 +1369,9 @@ Integrate Azure AD B2C (Microsoft Entra External ID) for user authentication.
 - [ ] User can log out
 - [ ] Protected pages redirect to login if unauthenticated
 - [ ] Tokens refresh automatically before expiry
+- [ ] Frontend sends tokens to backend for validation
+
+**Note**: This is cross-cutting with BE-03 (backend token validation). Azure Entra External ID is the platform identity provider.
 
 ---
 
@@ -1442,7 +1386,7 @@ Create the landing page explaining Tracepipe and prompting registration/login.
 **Content**:
 - Hero section with value proposition
 - Features overview (trace upload, training data generation)
-- Pricing tiers (linked to Stripe plans)
+- Usage-based pricing info (no subscription tiers)
 - Call-to-action: "Get Started" → registration
 
 **Acceptance Criteria**:
@@ -1461,16 +1405,18 @@ Create the main dashboard shown after login. Displays usage overview and quick a
 
 **Content**:
 - Welcome message with user name
-- Summary cards: Sessions uploaded, Examples generated, API calls this month
+- Summary cards: **Token usage (month), Storage (GB×time), Sessions uploaded, Examples generated**
 - Quick actions: Upload trace, Generate API key, View docs
 - Recent sessions list (table with session_id, suite, created_at)
 
 **Acceptance Criteria**:
 - [ ] Protected route (requires authentication)
 - [ ] Fetches data from Backend API
-- [ ] Summary cards display correct counts
+- [ ] Summary cards display **token usage and storage** (not API calls)
 - [ ] Recent sessions list is paginated
 - [ ] Quick action buttons navigate correctly
+
+**Note**: Cost units are **tokens** and **storage×time**, not API calls.
 
 ---
 
@@ -1517,92 +1463,84 @@ Create a guide page explaining how to capture browser traces using `chrome://tra
 
 ---
 
-### 3. Stripe Integration
+### 3. Payment Integration
 
-#### Issue FE-07: Stripe Checkout Integration
+#### Issue FE-07: Stripe Usage-Based Billing Integration
 **Status**: `[NEW]` | **Priority**: `P0`
 
 **Description**:
-Integrate Stripe Checkout for subscription payments.
+Integrate Stripe for **usage-based monthly billing** (not subscriptions). Users add a card on file and are charged at the end of each month based on actual usage (tokens consumed, storage×time).
+
+**Payment Model**:
+- No subscriptions, no tiers, no recurring charges
+- User adds payment method via Stripe SetupIntent
+- Usage tracked throughout the month
+- Backend reports usage to Stripe (metered billing / usage records)
+- Stripe generates invoice at month-end and charges card on file
 
 **Flow**:
-1. User clicks "Subscribe" on dashboard or pricing page
-2. Frontend creates Stripe Checkout session (via Backend API)
-3. User redirected to Stripe-hosted checkout page
-4. On success, redirected back to dashboard with success message
-5. Backend webhook updates user subscription status
+1. User registers → prompted to add payment method
+2. Frontend creates Stripe SetupIntent (via Backend API)
+3. User enters card details (Stripe Elements)
+4. Card saved to user's Stripe Customer (not charged yet)
+5. Usage accrues during month
+6. Stripe auto-invoices at month-end based on reported usage
 
 **Deliverables**:
-- "Subscribe" button component
-- Checkout session creation (calls Backend API)
-- Success/cancel redirect handlers
-- Subscription status display in dashboard
+- "Add Payment Method" page/modal
+- Stripe Elements integration for card input
+- Setup confirmation flow
+- Payment method display (card last 4 digits, expiry)
+- "Update Payment Method" flow
 
 **Acceptance Criteria**:
-- [ ] Subscribe button creates checkout session
-- [ ] User redirected to Stripe checkout
-- [ ] Test mode payments work (Stripe test cards)
-- [ ] Success redirect shows confirmation message
-- [ ] Subscription status updates in dashboard
+- [ ] User can add card via SetupIntent
+- [ ] Card saved to Stripe Customer without charge
+- [ ] Test mode works (Stripe test cards)
+- [ ] User sees confirmation after adding card
+- [ ] User can view/update payment method
+- [ ] No subscription charges occur
 
----
-
-#### Issue FE-08: Stripe Customer Portal Integration
-**Status**: `[NEW]` | **Priority**: `P1`
-
-**Description**:
-Integrate Stripe Customer Portal for subscription and billing management.
-
-**Features**:
-- Link to "Manage Billing" in user dropdown/dashboard
-- Redirects to Stripe-hosted portal
-- User can update payment method, view invoices, cancel subscription
-
-**Implementation**:
-- Button calls Backend API to create portal session
-- Redirect to portal URL
-- Return URL points back to dashboard
-
-**Acceptance Criteria**:
-- [ ] "Manage Billing" link works
-- [ ] User redirected to Stripe portal
-- [ ] User can view invoices in portal
-- [ ] User can update payment method
-- [ ] Return link brings user back to dashboard
+**Note**: Backend (separate issue) will handle usage reporting to Stripe and invoice generation.
 
 ---
 
 ### 4. Usage Metrics
 
-#### Issue FE-09: Usage Dashboard
+#### Issue FE-08: Usage Dashboard
 **Status**: `[NEW]` | **Priority**: `P1`
 
 **Description**:
-Display usage metrics and quota consumption for the current billing period.
+Display usage metrics for the current billing period. Show **tokens consumed** and **storage usage**, not API calls.
 
 **Metrics**:
+- **Tokens consumed** (count, by model)
+- **Storage used** (GB×hours)
 - Sessions uploaded (count)
 - Examples generated (count)
-- API calls made (count)
-- Storage used (GB)
-- Quota limits (if applicable)
+- Current billing period dates
+- Estimated cost for current period
 
 **Visualization**:
-- Bar charts or line graphs for time-series data
-- Progress bars for quota usage
+- Line graphs for token usage over time
+- Bar chart for storage growth
+- Cost breakdown (tokens vs storage)
 
 **Acceptance Criteria**:
 - [ ] Fetches usage data from Backend API
-- [ ] Displays current billing period dates
-- [ ] Shows usage counts with units
-- [ ] Visual indicators for quota limits (if applicable)
+- [ ] Displays current billing period (month-to-date)
+- [ ] Shows **token consumption** (not API calls)
+- [ ] Shows **storage usage** (GB×hours)
+- [ ] Displays estimated cost
 - [ ] Updates on page load (no auto-refresh needed for MVP)
+
+**Note**: Cost units are tokens and storage×time, NOT API call counts.
 
 ---
 
 ### 5. Session Upload
 
-#### Issue FE-10: Session Upload Page
+#### Issue FE-09: Session Upload Page
 **Status**: `[NEW]` | **Priority**: `P1`
 
 **Description**:
@@ -1628,7 +1566,7 @@ Create the page for uploading session trace bundles.
 
 ### 6. Testing & Deployment
 
-#### Issue FE-11: Frontend Integration Tests
+#### Issue FE-10: Frontend Integration Tests
 **Status**: `[NEW]` | **Priority**: `P2`
 
 **Description**:
@@ -1649,6 +1587,12 @@ Implement integration tests for critical user flows.
 - [ ] Tests run in CI/CD pipeline
 - [ ] Tests use mocked Backend API (no real data)
 - [ ] Tests pass consistently
+
+**Dropped/Replaced Issues**:
+- **FE-07** (Stripe Checkout) — **REPLACED** with FE-07 (Stripe Usage-Based Billing)
+- **FE-08** (Stripe Customer Portal) — **REPLACED** with FE-08 (Usage Dashboard with tokens/storage)
+
+**Note**: Payment model changed from subscriptions to usage-based monthly billing. Cost tracking changed from API calls to tokens and storage×time.
 
 ---
 
@@ -1790,35 +1734,62 @@ Create end-to-end integration tests that span all three components (Frontend, Ba
 
 ---
 
-## Summary by Status
+## Summary
 
-### Carry-Over (Direct ports from autoactivity)
-- **Total**: 9 issues
-- BE-03 (Auth middleware), BE-04 (Docker), BE-12 (ActionToolMap), BE-21 (Model entity), PL-01 (Bronze loader), PL-02 (Silver normalizer), PL-03 (Pipeline YAML), PL-04 (Local runner), PL-17 (Metrics)
+**Total Issues**: 51 (after corrections and consolidations)
 
-### Adaptation (Exists but needs refactoring)
-- **Total**: 14 issues
-- BE-01 (DB migration), BE-02 (Remove orchestration), BE-05 (Session model), BE-06 (Session upload), BE-07 (Session retrieval), BE-08 (Suite CRUD), BE-09 (Action CRUD), BE-17 (API key mgmt), BE-22 (Seeding), BE-23 (Integration tests), PL-13 (Trace validation), PL-15 (Pipeline tests)
+### By Milestone
+- **Backend MVP**: 24 issues (BE-01 through BE-24)
+- **Pipelines MVP**: 15 issues (PL-01 through PL-15)
+- **Frontend MVP**: 10 issues (FE-01 through FE-10)
+- **Cross-Cutting**: 6 issues (CC-01 through CC-06)
 
-### New (Net-new for Tracepipe)
-- **Total**: 30 issues
-- 11 Backend issues (BE-10, BE-11, BE-13, BE-14, BE-15, BE-16, BE-18, BE-19, BE-20)
-- 8 Pipelines issues (PL-05 through PL-12, PL-14, PL-16, PL-18, PL-19)
-- 11 Frontend issues (FE-01 through FE-11)
-- 6 Cross-cutting issues (CC-01 through CC-06)
+### By Status
+
+**Carry-Over** (Direct ports from autoactivity): ~6 issues
+- BE-04 (Docker), BE-21 (Model entity), PL-01 (Bronze loader), PL-02 (Silver normalizer), PL-03 (Pipeline YAML), PL-04 (Local runner)
+
+**Adaptation** (Exists but needs refactoring): ~15 issues
+- BE-02 (Port scaffolding), BE-05 (Session model), BE-06 (Session upload), BE-07 (Session retrieval), BE-08 (Suite read-only), BE-09 (Action read-only), BE-10 (McpServer read-only), BE-11 (Tool read-only), BE-12 (ActionToolMap read-only), BE-17 (API key mgmt), BE-22 (Seeding), BE-24 (Integration tests), PL-10 (Trace validation), PL-12 (Pipeline tests)
+
+**New** (Net-new for Tracepipe): ~30 issues
+- Backend: BE-01, BE-03, BE-13, BE-14, BE-15, BE-16, BE-18, BE-19, BE-23
+- Pipelines: PL-05, PL-06, PL-07, PL-08, PL-09, PL-11, PL-13, PL-14, PL-15
+- Frontend: FE-01, FE-02, FE-03, FE-04, FE-05, FE-06, FE-07, FE-08, FE-09, FE-10
+- Cross-cutting: CC-01 through CC-06
+
+### Major Changes from Original Draft
+
+**Dropped Issues** (6):
+- PL-07 (LLM Action Classifier) — redundant with PL-05
+- PL-11 (Processing Orchestrator) — moved to BE-18
+- PL-12 (Processing Status API) — merged into BE-18
+- PL-18 (Docker/Deployment) — AzureML handles this
+- Old FE-07 (Stripe Checkout subscriptions) — replaced with usage-based billing
+- Old FE-08 (Stripe Customer Portal) — replaced with usage dashboard
+
+**New/Modified Issues**:
+- BE-18: Major rewrite for Example creation with AP2 payment model + status field
+- Session.description field added (PL-01)
+- Example.status field added (BE-01, BE-18)
+- Changed from subscriptions to usage-based monthly billing (FE-07)
+- Changed cost tracking from API calls to tokens + storage×time (FE-04, FE-08)
+- All Capability Surface endpoints (Suite, Action, McpServer, Tool, ActionToolMap) are now read-only
 
 ---
 
 ## Next Steps
 
-1. **Review this document** with the team to confirm scope and priorities
-2. **File issues in GitHub** at CRSS-AI/tracepipe with appropriate labels and milestones
-3. **Prioritize issues** within each milestone (P0 first, then P1, then P2)
-4. **Assign issues** to team members
-5. **Begin implementation** starting with Backend MVP (foundation for Pipelines and Frontend)
+1. **Run milestone sync** — Create milestones in subrepos via `sync-milestones.py`
+2. **Create labels** — Set up status, priority, component, and type labels in each subrepo
+3. **File issues** — Use `gh issue create` to file in native repos with milestone assignment
+4. **Add to Project** — Aggregate all issues in centralized GitHub Project
+5. **Link dependencies** — Add cross-repo issue references (e.g., `CRSS-AI/tracepipe-backend#XX`)
+6. **Begin implementation** — Start with Backend MVP (P0 issues first)
 
 ---
 
 _Document generated: 2026-02-11_  
-_Target milestones: Backend MVP (#2), Pipelines MVP (#1), Frontend MVP (#3)_  
-_Total issues: 53 (fine-grained decomposition)_
+_Last updated: 2026-02-13_  
+_Target milestones: Backend MVP, Pipelines MVP, Frontend MVP_  
+_Total issues: 51 (fine-grained decomposition)_

@@ -1,8 +1,7 @@
 ---
 title: "Backend MVP"
-github_milestone: 2
-target_repos:
-  - CRSS-AI/tracepipe-backend
+github_milestone: null
+repo: CRSS-AI/tracepipe-backend
 ---
 
 _Last reviewed: 2026-02-11_

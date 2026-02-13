@@ -21,15 +21,14 @@ from pathlib import Path
 import yaml
 
 MILESTONES_DIR = Path("docs/milestones")
-REPO = os.environ.get("GITHUB_REPOSITORY", "CRSS-AI/tracepipe")
 
 # Regex to match YAML front matter
 FRONT_MATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 
 
-def gh_api(endpoint: str, method: str = "GET", data: dict | None = None) -> dict | list | None:
+def gh_api(repo: str, endpoint: str, method: str = "GET", data: dict | None = None) -> dict | list | None:
     """Call GitHub API via gh CLI."""
-    cmd = ["gh", "api", endpoint, "-X", method]
+    cmd = ["gh", "api", "-R", repo, endpoint, "-X", method]
     if data:
         for key, value in data.items():
             if isinstance(value, bool):
@@ -69,13 +68,17 @@ def parse_milestone_file(path: Path) -> dict | None:
         print(f"Warning: No title in {path}, skipping")
         return None
     
+    if "repo" not in front_matter:
+        print(f"Warning: No repo in {path}, skipping")
+        return None
+    
     body = content[match.end():].strip()
     
     return {
         "path": path,
         "title": front_matter["title"],
+        "repo": front_matter["repo"],
         "github_milestone": front_matter.get("github_milestone"),
-        "target_repos": front_matter.get("target_repos", []),
         "body": body,
         "raw_front_matter": match.group(1),
         "full_content": content,
@@ -94,35 +97,38 @@ def update_milestone_number(path: Path, old_content: str, new_number: int) -> No
     print(f"  Updated {path} with milestone number {new_number}")
 
 
-def get_github_milestones() -> dict[int, dict]:
-    """Get all GitHub milestones, keyed by number."""
-    milestones = gh_api(f"repos/{REPO}/milestones?state=all&per_page=100") or []
+def get_github_milestones(repo: str) -> dict[int, dict]:
+    """Get all GitHub milestones for a repo, keyed by number."""
+    milestones = gh_api(repo, f"repos/{repo}/milestones?state=all&per_page=100") or []
     return {m["number"]: m for m in milestones}
 
 
-def create_milestone(title: str, body: str) -> int:
+def create_milestone(repo: str, title: str, body: str) -> int:
     """Create a new GitHub milestone, return its number."""
     result = gh_api(
-        f"repos/{REPO}/milestones",
+        repo,
+        f"repos/{repo}/milestones",
         method="POST",
         data={"title": title, "description": body},
     )
     return result["number"]
 
 
-def update_milestone(number: int, title: str, body: str) -> None:
+def update_milestone(repo: str, number: int, title: str, body: str) -> None:
     """Update an existing GitHub milestone."""
     gh_api(
-        f"repos/{REPO}/milestones/{number}",
+        repo,
+        f"repos/{repo}/milestones/{number}",
         method="PATCH",
         data={"title": title, "description": body},
     )
 
 
-def close_milestone(number: int) -> None:
+def close_milestone(repo: str, number: int) -> None:
     """Close a GitHub milestone."""
     gh_api(
-        f"repos/{REPO}/milestones/{number}",
+        repo,
+        f"repos/{repo}/milestones/{number}",
         method="PATCH",
         data={"state": "closed"},
     )
@@ -144,50 +150,62 @@ def main():
         if doc:
             docs.append(doc)
 
-    # Get current GitHub milestones
-    gh_milestones = get_github_milestones()
-    print(f"Found {len(gh_milestones)} existing GitHub milestone(s)")
-
-    # Track which GitHub milestones are still referenced
-    referenced_numbers = set()
-
-    # Process each doc
+    # Group docs by repo
+    repos_to_docs = {}
     for doc in docs:
-        title = doc["title"]
-        body = doc["body"]
-        number = doc["github_milestone"]
+        repo = doc["repo"]
+        if repo not in repos_to_docs:
+            repos_to_docs[repo] = []
+        repos_to_docs[repo].append(doc)
 
-        if number is None:
-            # Create new milestone
-            print(f"Creating milestone: {title}")
-            new_number = create_milestone(title, body)
-            update_milestone_number(doc["path"], doc["full_content"], new_number)
-            referenced_numbers.add(new_number)
-        else:
-            referenced_numbers.add(number)
-            if number in gh_milestones:
-                gh_m = gh_milestones[number]
-                # Check if update needed
-                if gh_m["title"] != title or (gh_m.get("description") or "") != body:
-                    print(f"Updating milestone #{number}: {title}")
-                    update_milestone(number, title, body)
-                else:
-                    print(f"Milestone #{number} is up to date: {title}")
-            else:
-                # Milestone number in doc but doesn't exist in GitHub - recreate
-                print(f"Milestone #{number} not found in GitHub, creating: {title}")
-                new_number = create_milestone(title, body)
+    # Process each repo
+    for repo, repo_docs in repos_to_docs.items():
+        print(f"\n=== Processing repo: {repo} ===")
+        
+        # Get current GitHub milestones for this repo
+        gh_milestones = get_github_milestones(repo)
+        print(f"Found {len(gh_milestones)} existing GitHub milestone(s)")
+
+        # Track which GitHub milestones are still referenced
+        referenced_numbers = set()
+
+        # Process each doc in this repo
+        for doc in repo_docs:
+            title = doc["title"]
+            body = doc["body"]
+            number = doc["github_milestone"]
+
+            if number is None:
+                # Create new milestone
+                print(f"Creating milestone: {title}")
+                new_number = create_milestone(repo, title, body)
                 update_milestone_number(doc["path"], doc["full_content"], new_number)
                 referenced_numbers.add(new_number)
-                referenced_numbers.discard(number)
+            else:
+                referenced_numbers.add(number)
+                if number in gh_milestones:
+                    gh_m = gh_milestones[number]
+                    # Check if update needed
+                    if gh_m["title"] != title or (gh_m.get("description") or "") != body:
+                        print(f"Updating milestone #{number}: {title}")
+                        update_milestone(repo, number, title, body)
+                    else:
+                        print(f"Milestone #{number} is up to date: {title}")
+                else:
+                    # Milestone number in doc but doesn't exist in GitHub - recreate
+                    print(f"Milestone #{number} not found in GitHub, creating: {title}")
+                    new_number = create_milestone(repo, title, body)
+                    update_milestone_number(doc["path"], doc["full_content"], new_number)
+                    referenced_numbers.add(new_number)
+                    referenced_numbers.discard(number)
 
-    # Close orphaned milestones
-    for number, gh_m in gh_milestones.items():
-        if number not in referenced_numbers and gh_m["state"] == "open":
-            print(f"Closing orphaned milestone #{number}: {gh_m['title']}")
-            close_milestone(number)
+        # Close orphaned milestones in this repo
+        for number, gh_m in gh_milestones.items():
+            if number not in referenced_numbers and gh_m["state"] == "open":
+                print(f"Closing orphaned milestone #{number}: {gh_m['title']}")
+                close_milestone(repo, number)
 
-    print("Sync complete")
+    print("\n=== Sync complete ===")
 
 
 if __name__ == "__main__":

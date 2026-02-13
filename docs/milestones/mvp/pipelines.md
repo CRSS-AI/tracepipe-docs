@@ -1,8 +1,7 @@
 ---
 title: "Pipelines MVP"
-github_milestone: 1
-target_repos:
-  - CRSS-AI/tracepipe-pipelines
+github_milestone: null
+repo: CRSS-AI/tracepipe-pipelines
 ---
 
 _Last reviewed: 2026-02-11_

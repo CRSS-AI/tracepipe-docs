@@ -1,8 +1,7 @@
 ---
 title: "Frontend MVP"
-github_milestone: 3
-target_repos:
-  - CRSS-AI/tracepipe-frontend
+github_milestone: null
+repo: CRSS-AI/tracepipe-frontend
 ---
 
 _Last reviewed: 2026-02-11_
