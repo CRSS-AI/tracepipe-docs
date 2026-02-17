@@ -1,6 +1,6 @@
 # Data Model
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-17_
 
 ## Lineage
 
@@ -110,6 +110,7 @@ classDiagram
         +User user
         +uuid suiteId
         +Suite suite
+        +text description
         +timestamp createdAt
         +string storagePath
     }
@@ -123,6 +124,8 @@ classDiagram
         +ActionToolMap actionToolMap
         +json modelConfiguration
         +string storagePath
+        +ExampleStatus status
+        +timestamp createdAt
     }
 
     Suite *-- Action
@@ -271,6 +274,7 @@ classDiagram
         +User user
         +uuid suiteId
         +Suite suite
+        +text description
         +timestamp createdAt
         +string storagePath
     }
@@ -284,6 +288,8 @@ classDiagram
         +ActionToolMap actionToolMap
         +json modelConfiguration
         +string storagePath
+        +ExampleStatus status
+        +timestamp createdAt
     }
 
     Session --> User
@@ -311,8 +317,8 @@ classDiagram
 
 - **Model**: Logical representation of an LLM or policy artifact, scoped by `provider` (enum) and `name`. Configuration is stored per-Example rather than per-Model.
 - **User**: Representation of the human operator uploading trace data.
-- **Session**: Represents a trace upload from a user. Contains raw trace bundles (input events, network traffic, screenshots) at `storagePath`. Sessions are scoped to a Suite.
-- **Example**: Processed training data derived from a Session. Links to the Model and ActionToolMap used during processing. The `modelConfiguration` field captures provider-specific parameters (temperature, routing hints). The `storagePath` points to JSONL-serialized training messages.
+- **Session**: Represents a trace upload from a user. Contains raw trace bundles (input events, network traffic, screenshots) at `storagePath`. Sessions are scoped to a Suite. The optional `description` field (TEXT) allows users to annotate what the trace captures.
+- **Example**: Processed training data derived from a Session. Links to the Model and ActionToolMap used during processing. The `modelConfiguration` field captures provider-specific parameters (temperature, routing hints). The `storagePath` points to JSONL-serialized training messages. The `status` field (`ExampleStatus` enum: `PENDING`, `PROCESSING`, `COMPLETED`, `FAILED`) tracks processing progress. `createdAt` records when the example was generated.
 
 ## Storage Conventions
 
