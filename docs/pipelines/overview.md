@@ -1,6 +1,6 @@
 # Data Pipelines Overview
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-20_
 
 ## Lineage
 
@@ -29,7 +29,6 @@ graph LR
 Validates and stores incoming Session data:
 
 - Trace format validation (JSONL structure, required fields)
-- Screenshot format validation (PNG, timestamps)
 - Storage path assignment
 - Session record creation
 
@@ -38,9 +37,7 @@ Validates and stores incoming Session data:
 Normalizes trace data for classification:
 
 - Input event normalization (keyboard, mouse, touch)
-- Network traffic filtering (relevant endpoints only)
-- Screenshot sampling and encoding
-- Multimodal trace assembly
+- Event sequence assembly for classification
 
 ### 3. Action Classification
 

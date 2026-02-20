@@ -1,14 +1,14 @@
 # Data Model
 
-_Last reviewed: 2026-02-17_
+_Last reviewed: 2026-02-20_
 
 ## Lineage
 
-This data model is derived from the [AutoActivity data model](https://github.com/CRSS-AI/autoactivity-docs/blob/main/docs/backend/data_model.md). The Capability Surface entities are preserved intact. The Activity Execution layer has been simplified: Sessions represent raw trace uploads and Examples represent processed training data. The Task/Activity/Case/Instance orchestration hierarchy has been removed.
+This data model is derived from the [AutoActivity data model](https://github.com/CRSS-AI/autoactivity-docs/blob/main/docs/backend/data_model.md). The Suite, Action, Tool, and mapping entities are preserved intact. The Activity Execution layer has been simplified: Sessions represent raw trace uploads and Examples represent processed training data. The Task/Activity/Case/Instance orchestration hierarchy has been removed.
 
 ## Scope
 
-Capture the authoritative abstractions and entities that underpin trace ingestion, capability surface mapping, and training data generation.
+Capture the authoritative abstractions and entities that underpin trace ingestion, suite/action/tool mapping, and training data generation.
 
 ## Modeling Principles
 
@@ -147,7 +147,7 @@ classDiagram
     Example --> ActionToolMap
 ```
 
-### Capability Surface Focus
+### Suite, Action, and Tool entities
 
 ```mermaid
 ---
@@ -301,7 +301,7 @@ classDiagram
 
 ## Entity Guidance
 
-### Capability Surface Entities
+### Suite, Action, and Tool entities
 
 - **Suite**: Describes the human-facing application environment (e.g., Gmail). Maintains the set of canonical `Action` definitions and available `ActionToolMap` variants.
 - **Action**: Canonical action definition scoped to a Suite. Parameters capture the inputs the action expects using shared parameter metadata.
@@ -317,7 +317,7 @@ classDiagram
 
 - **Model**: Logical representation of an LLM or policy artifact, scoped by `provider` (enum) and `name`. Configuration is stored per-Example rather than per-Model.
 - **User**: Representation of the human operator uploading trace data.
-- **Session**: Represents a trace upload from a user. Contains raw trace bundles (input events, network traffic, screenshots) at `storagePath`. Sessions are scoped to a Suite. The optional `description` field (TEXT) allows users to annotate what the trace captures.
+- **Session**: Represents a trace upload from a user. Contains raw input event trace data at `storagePath`. Sessions are scoped to a Suite. The optional `description` field (TEXT) allows users to annotate what the trace captures.
 - **Example**: Processed training data derived from a Session. Links to the Model and ActionToolMap used during processing. The `modelConfiguration` field captures provider-specific parameters (temperature, routing hints). The `storagePath` points to JSONL-serialized training messages. The `status` field (`ExampleStatus` enum: `PENDING`, `PROCESSING`, `COMPLETED`, `FAILED`) tracks processing progress. `createdAt` records when the example was generated.
 
 ## Storage Conventions
@@ -328,12 +328,7 @@ Session traces are stored at `storagePath` with the following structure:
 
 ```
 sessions/<session-id>/
-├── input_events.jsonl      # User input trace
-├── network_traffic.jsonl   # Network request/response pairs
-└── screenshots/            # Timestamped screenshots
-    ├── 0001.png
-    ├── 0002.png
-    └── ...
+└── input_events.jsonl      # User input trace (keyboard, mouse, touch)
 ```
 
 ### Example Storage

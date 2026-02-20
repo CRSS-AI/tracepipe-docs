@@ -1,10 +1,10 @@
 # Backend Overview
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-20_
 
 ## Purpose
 
-The Tracepipe backend provides APIs for Session ingestion, Capability Surface management, and Example retrieval. It serves both the storefront frontend and external API consumers.
+The Tracepipe backend provides APIs for Session ingestion, Suite/Action/Tool management, and Example retrieval. It serves both the storefront frontend and external API consumers.
 
 ## Architecture
 
@@ -14,17 +14,17 @@ graph LR
     External[External Clients] --> API
     API --> Auth[Auth Middleware]
     Auth --> Sessions[Session Service]
-    Auth --> Capability[Capability Service]
+    Auth --> Catalog[Catalog Service]
     Auth --> Examples[Example Service]
     
     Sessions --> Storage[(Object Storage)]
     Examples --> Storage
-    Capability --> DB[(Database)]
+    Catalog --> DB[(Database)]
 ```
 
 ## Authentication
 
-API requests require an API key in the `X-API-Key` header. Keys are generated through the [storefront](https://tracepipe.example.com) after registration and subscription.
+API requests require an API key in the `X-API-Key` header. Keys are generated through the [storefront](https://tracepipe.example.com) after registration and adding a payment method.
 
 **API Key Header Format**:
 ```
@@ -45,13 +45,11 @@ API keys are scoped to your user account and can be revoked at any time through 
 
 Handles trace ingestion from users:
 
-- **POST** `/sessions` — Upload trace bundle (input events, network, screenshots)
+- **POST** `/sessions` — Upload input event trace
   ```bash
   curl -X POST https://api.tracepipe.example.com/v1/sessions \
     -H "X-API-Key: tp_live_..." \
     -F "input_events=@input_events.jsonl" \
-    -F "network_traffic=@network_traffic.jsonl" \
-    -F "screenshots=@screenshots.zip" \
     -F "suite_id=<suite-uuid>"
   ```
 
@@ -69,19 +67,26 @@ Handles trace ingestion from users:
 
 Sessions are stored in object storage at paths defined by the data model.
 
-### Capability Service
+### Catalog Service
 
-Manages the Capability Surface entities:
+Manages the Suite, Action, MCP Server, and Tool entities:
 
 - **CRUD** `/suites` — Suite management
 - **CRUD** `/suites/{id}/actions` — Action definitions
 - **CRUD** `/mcp-servers` — MCP server catalog
 - **CRUD** `/mcp-servers/{id}/tools` — Tool definitions
-- **CRUD** `/action-tool-maps` — Suite-to-McpServer bindings
 
 ### Example Service
 
 Provides access to processed training data:
+
+- **POST** `/examples` — Trigger pipeline processing for a session
+  ```bash
+  curl -X POST https://api.tracepipe.example.com/v1/examples \
+    -H "X-API-Key: tp_live_..." \
+    -H "Content-Type: application/json" \
+    -d '{"session_id": "<uuid>", "model_id": "<uuid>", "model_configuration": {"temperature": 0.7}}'
+  ```
 
 - **GET** `/examples` — List examples, filterable by session, model, suite
   ```bash

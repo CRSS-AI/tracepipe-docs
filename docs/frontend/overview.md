@@ -1,6 +1,6 @@
 # Frontend Overview
 
-_Last reviewed: 2026-02-05_
+_Last reviewed: 2026-02-19_
 
 ## Purpose
 
@@ -30,10 +30,12 @@ graph TD
 
 ### Payments
 
-- Stripe integration for subscription billing
-- Link support for streamlined checkout
-- Usage-based billing tiers
-- Invoice history and management
+- Stripe integration for usage-based monthly billing
+- Users add a payment method via Stripe SetupIntent (card on file)
+- Usage tracked throughout the month (tokens consumed, storage×time)
+- Stripe generates invoice at month-end based on reported usage
+- No subscriptions, no tiers, no recurring fixed charges
+- Invoice history and payment method management
 
 ### API Key Management
 
@@ -45,7 +47,7 @@ graph TD
 ## Design Principles
 
 - **Minimal moving parts**: Standard SaaS patterns, no custom infrastructure
-- **Stripe-first**: Leverage Stripe's hosted checkout and customer portal
+- **Stripe-first**: Leverage Stripe SetupIntent for payment method capture and metered billing for month-end invoicing
 - **API-driven**: Frontend consumes Backend API for all operations
 
 ## Related Documents

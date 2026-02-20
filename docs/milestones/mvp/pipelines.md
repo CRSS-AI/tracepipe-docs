@@ -4,7 +4,7 @@ github_milestone: 1
 repo: CRSS-AI/tracepipe-pipelines
 ---
 
-_Last reviewed: 2026-02-11_
+_Last reviewed: 2026-02-20_
 
 ## Lineage
 
@@ -17,7 +17,7 @@ Deliver a working pipeline that transforms raw Session trace data into structure
 ## Scope
 
 - Session trace ingestion from storage
-- Multimodal trace normalization
+- Input event trace normalization
 - LLM-powered action classification
 - Example synthesis with JSONL output
 - Processing status tracking
@@ -25,7 +25,7 @@ Deliver a working pipeline that transforms raw Session trace data into structure
 ## Deliverables
 
 - [ ] Trace loader: Read Session traces from storage
-- [ ] Trace normalizer: Standardize input events, network, screenshots
+- [ ] Trace normalizer: Standardize input events
 - [ ] Action classifier: LLM-based trace-to-action mapping
 - [ ] Example synthesizer: Generate training messages
 - [ ] JSONL writer: Serialize examples to storage
@@ -53,7 +53,6 @@ Deliver a working pipeline that transforms raw Session trace data into structure
 | LLM classification accuracy | Include confidence scores; flag low-confidence for review |
 | Processing latency for large traces | Implement async processing with status polling |
 | LLM API rate limits | Configure backoff; batch requests where possible |
-| Screenshot encoding costs | Sample screenshots; use efficient encoding |
 
 ## Implementation Notes
 
@@ -70,8 +69,7 @@ Deliver a working pipeline that transforms raw Session trace data into structure
 graph TD
     Trigger[Session Created] --> Load[Load Traces]
     Load --> Normalize[Normalize Traces]
-    Normalize --> Assemble[Assemble Multimodal Input]
-    Assemble --> Classify[LLM Classification]
+    Normalize --> Classify[LLM Classification]
     Classify --> Synthesize[Synthesize Messages]
     Synthesize --> Write[Write JSONL]
     Write --> Record[Create Example Record]
